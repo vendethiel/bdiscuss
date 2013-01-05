@@ -38,12 +38,6 @@ module.exports = class Application extends chaplin.Application
   # Instantiate common controllers
   # ------------------------------
   initControllers: ->
-    # These controllers are active during the whole application runtime.
-    # You don’t need to instantiate all controllers here, only special
-    # controllers which do not to respond to routes. They may govern models
-    # and views which are needed the whole time, for example header, footer
-    # or navigation views.
-    # e.g. new NavigationController()
     new headerController
 
   # Create additional mediator properties

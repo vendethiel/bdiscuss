@@ -16,6 +16,8 @@
     "test": "brunch test"
   },
   "dependencies": {
+    "auto-reload-brunch": "> 1.0 < 1.5",
+
     "javascript-brunch": ">= 1.0 < 1.5",
     "coffee-script-brunch": "*",
     "LiveScript-brunch": "*",

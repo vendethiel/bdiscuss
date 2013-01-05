@@ -150,6 +150,43 @@ window.require.register("controllers/base/controller", function(exports, require
     return obj;
   }
 });
+window.require.register("controllers/forums-controller", function(exports, require, module) {
+  var Controller, ForumsIndexView, ForumCollection, ForumsController;
+  Controller = require('controllers/base/controller');
+  ForumsIndexView = require('views/forums/index-view');
+  ForumCollection = require('models/forum-collection');
+  module.exports = ForumsController = (function(superclass){
+    var prototype = extend$((import$(ForumsController, superclass).displayName = 'ForumsController', ForumsController), superclass).prototype, constructor = ForumsController;
+    prototype.historyURL = 'forums';
+    prototype.title = 'Forums';
+    prototype.index = function(){
+      var collection;
+      collection = new ForumCollection;
+      collection.add({
+        id: 5,
+        name: 'lol'
+      });
+      return this.view = new ForumsIndexView({
+        collection: collection
+      });
+    };
+    function ForumsController(){
+      ForumsController.superclass.apply(this, arguments);
+    }
+    return ForumsController;
+  }(Controller));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
 window.require.register("controllers/header-controller", function(exports, require, module) {
   var Controller, HeaderView, HeaderController;
   Controller = require('controllers/base/controller');
@@ -205,13 +242,13 @@ window.require.register("controllers/home-controller", function(exports, require
     return obj;
   }
 });
-window.require.register("index", function(exports, require, module) {
+window.require.register("index.static", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
   attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><title>bDiscuss</title><meta name="viewport" content="width=device-width"/><link rel="stylesheet" href="/stylesheets/app.css"/><script src="/javascripts/vendor.js"></script><script src="/javascripts/app.js"></script><script>require(\'initialize\');</script></head><body><header id="header-container" class="header-container"></header><div class="container outer-container"><div id="page-container" class="page-container"></div></div></body></html>');
+  buf.push('<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><title>bDiscuss</title><meta name="viewport" content="width=device-width"/><link rel="stylesheet" href="/stylesheets/app.css"/></head><body><header id="header-container" class="header-container"></header><div class="container outer-container"><div id="page-container" class="page-container"></div></div><script src="/javascripts/vendor.js"></script><script src="/javascripts/app.js"></script><script>require(\'initialize\');</script></body></html>');
   }
   return buf.join("");
   };
@@ -287,9 +324,63 @@ window.require.register("models/base/model", function(exports, require, module) 
     return obj;
   }
 });
+window.require.register("models/forum-collection", function(exports, require, module) {
+  var Collection, model, ForumCollection;
+  Collection = require('./base/collection');
+  model = require('./forum');
+  module.exports = ForumCollection = (function(superclass){
+    var prototype = extend$((import$(ForumCollection, superclass).displayName = 'ForumCollection', ForumCollection), superclass).prototype, constructor = ForumCollection;
+    prototype.model = model;
+    function ForumCollection(){
+      ForumCollection.superclass.apply(this, arguments);
+    }
+    return ForumCollection;
+  }(Collection));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("models/forum", function(exports, require, module) {
+  var Model, Forum;
+  Model = require('models/base/model');
+  module.exports = Forum = (function(superclass){
+    var prototype = extend$((import$(Forum, superclass).displayName = 'Forum', Forum), superclass).prototype, constructor = Forum;
+    function Forum(){
+      Forum.superclass.apply(this, arguments);
+    }
+    return Forum;
+  }(Model));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
 window.require.register("routes", function(exports, require, module) {
-  module.exports = function(it){
-    return it('', 'home#index');
+  module.exports = function(m){
+    m('', 'home#index', {
+      name: 'home'
+    });
+    m('forums', 'forums#index', {
+      name: 'forums'
+    });
+    return m('forum/:id', 'forums#show', {
+      name: 'view_forum'
+    });
   };
 });
 window.require.register("views/base/collection-view", function(exports, require, module) {
@@ -304,6 +395,57 @@ window.require.register("views/base/collection-view", function(exports, require,
     }
     return CollectionView;
   }(Chaplin.CollectionView));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("views/base/page-view", function(exports, require, module) {
+  var View, PageView;
+  View = require('views/base/view');
+  module.exports = PageView = (function(superclass){
+    var prototype = extend$((import$(PageView, superclass).displayName = 'PageView', PageView), superclass).prototype, constructor = PageView;
+    prototype.container = '#content-container';
+    prototype.renderedSubviews = false;
+    prototype.initialize = function(){
+      var modelOrCollection, rendered, this$ = this;
+      superclass.prototype.initialize.apply(this, arguments);
+      modelOrCollection = this.model || this.collection;
+      if (modelOrCollection) {
+        rendered = false;
+        return this.listenTo(modelOrCollection, 'change', function(){
+          var rendered;
+          if (!rendered) {
+            this$.render();
+          }
+          return rendered = true;
+        });
+      }
+    };
+    prototype.getNavigationData = function(){
+      return {};
+    };
+    prototype.renderSubviews = function(){};
+    prototype.render = function(){
+      superclass.prototype.render.apply(this, arguments);
+      if (!this.renderedSubviews) {
+        this.renderSubviews();
+        this.renderedSubviews = true;
+      }
+      return this.publishEvent('navigation:change', this.getNavigationData());
+    };
+    function PageView(){
+      PageView.superclass.apply(this, arguments);
+    }
+    return PageView;
+  }(View));
   function extend$(sub, sup){
     function fun(){} fun.prototype = (sub.superclass = sup).prototype;
     (sub.prototype = new fun).constructor = sub;
@@ -340,6 +482,89 @@ window.require.register("views/base/view", function(exports, require, module) {
     for (var key in src) if (own.call(src, key)) obj[key] = src[key];
     return obj;
   }
+});
+window.require.register("views/forums/index-view", function(exports, require, module) {
+  var CollectionView, ForumsItemView, template, ForumsIndexView;
+  CollectionView = require('views/base/collection-view');
+  ForumsItemView = require('./item-view');
+  template = require('./templates/index');
+  module.exports = ForumsIndexView = (function(superclass){
+    var prototype = extend$((import$(ForumsIndexView, superclass).displayName = 'ForumsIndexView', ForumsIndexView), superclass).prototype, constructor = ForumsIndexView;
+    prototype.template = template;
+    prototype.className = 'home-page';
+    prototype.container = '#page-container';
+    prototype.listSelector = '.forum-list';
+    prototype.itemView = ForumsItemView;
+    prototype.autoRender = true;
+    function ForumsIndexView(){
+      ForumsIndexView.superclass.apply(this, arguments);
+    }
+    return ForumsIndexView;
+  }(CollectionView));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("views/forums/item-view", function(exports, require, module) {
+  var View, template, ForumsItemView;
+  View = require('views/base/view');
+  template = require('./templates/item');
+  module.exports = ForumsItemView = (function(superclass){
+    var prototype = extend$((import$(ForumsItemView, superclass).displayName = 'ForumsItemView', ForumsItemView), superclass).prototype, constructor = ForumsItemView;
+    prototype.template = template;
+    prototype.tagname = 'li';
+    prototype.autoRender = true;
+    function ForumsItemView(){
+      ForumsItemView.superclass.apply(this, arguments);
+    }
+    return ForumsItemView;
+  }(View));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("views/forums/templates/index", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<h3>Forum list</h3><ul class="forum-list"></ul>');
+  }
+  return buf.join("");
+  };
+});
+window.require.register("views/forums/templates/item", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<li><a');
+  buf.push(attrs({ 'href':("/forum/" + (id) + "") }, {"href":true}));
+  buf.push('>');
+  var __val__ = name
+  buf.push(escape(null == __val__ ? "" : __val__));
+  buf.push('</a></li>');
+  }
+  return buf.join("");
+  };
 });
 window.require.register("views/header-view", function(exports, require, module) {
   var view, header, HeaderView;
@@ -424,7 +649,7 @@ window.require.register("views/templates/header", function(exports, require, mod
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<Dis>is teh header</Dis>');
+  buf.push('<ul><li><a href="/">Index</a></li><li><a href="/forums">Forums</a></li></ul>');
   }
   return buf.join("");
   };
@@ -435,7 +660,7 @@ window.require.register("views/templates/home", function(exports, require, modul
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<p>Welcome aboard !</p>');
+  buf.push('<p>Welcome aboard !\nB:Discuss is a kind of forum ... It\'s very cool and you\'ll love it !</p>');
   }
   return buf.join("");
   };
