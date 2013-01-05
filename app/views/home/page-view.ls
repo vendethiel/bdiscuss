@@ -1,4 +1,4 @@
-require! <[views/templates/home views/base/view]>
+require! <[./templates/home views/base/view]>
 
 module.exports = class HomePageView extends view
   autoRender: yes

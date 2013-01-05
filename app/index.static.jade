@@ -10,6 +10,9 @@ html
     div.container.outer-container
       div.page-container#page-container
 
+    script.
+      window.brunch = window.brunch || {};
+      window.brunch['auto-reload'] = {enabled: true};
     script(src="/javascripts/vendor.js")
     script(src="/javascripts/app.js")
     script.

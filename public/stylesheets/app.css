@@ -373,6 +373,15 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+.home-page {
+  width: 476px;
+  height: 130px;
+  margin: 5px auto;
+  padding: 5px;
+  margin-bottom: 0.5em;
+  color: #fff;
+  background-color: #4276b6;
+}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -397,15 +406,6 @@ table {
 }
 .header-link:last-child {
   margin-right: 0;
-}
-.home-page {
-  width: 476px;
-  height: 130px;
-  margin: 5px auto;
-  padding: 5px;
-  margin-bottom: 0.5em;
-  color: #fff;
-  background-color: #4276b6;
 }
 /* ==========================================================================
    Helper classes

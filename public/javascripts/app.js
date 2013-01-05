@@ -83,7 +83,7 @@ window.require.register("application", function(exports, require, module) {
   var chaplin, headerController, layout, mediator, routes, Application;
   chaplin = require('chaplin');
   headerController = require('controllers/header-controller');
-  layout = require('views/layout');
+  layout = require('views/shared/layout');
   mediator = require('mediator');
   routes = require('routes');
   module.exports = Application = (function(superclass){
@@ -151,23 +151,32 @@ window.require.register("controllers/base/controller", function(exports, require
   }
 });
 window.require.register("controllers/forums-controller", function(exports, require, module) {
-  var Controller, ForumsIndexView, ForumCollection, ForumsController;
+  var Controller, ForumsIndexView, ForumsShowView, ForumCollection, Forum, ForumsController;
   Controller = require('controllers/base/controller');
   ForumsIndexView = require('views/forums/index-view');
+  ForumsShowView = require('views/forums/show-view');
   ForumCollection = require('models/forum-collection');
+  Forum = require('models/forum');
   module.exports = ForumsController = (function(superclass){
     var prototype = extend$((import$(ForumsController, superclass).displayName = 'ForumsController', ForumsController), superclass).prototype, constructor = ForumsController;
     prototype.historyURL = 'forums';
     prototype.title = 'Forums';
     prototype.index = function(){
-      var collection;
-      collection = new ForumCollection;
-      collection.add({
-        id: 5,
-        name: 'lol'
+      this.collection = new ForumCollection;
+      this.view = new ForumsIndexView({
+        collection: this.collection
       });
-      return this.view = new ForumsIndexView({
-        collection: collection
+      return this.collection.fetch();
+    };
+    prototype.show = function(arg$){
+      var id;
+      id = arg$.id;
+      this.model = new Forum({
+        id: id
+      });
+      this.model.fetch();
+      return this.view = new ForumsShowView({
+        model: this.model
       });
     };
     function ForumsController(){
@@ -190,7 +199,7 @@ window.require.register("controllers/forums-controller", function(exports, requi
 window.require.register("controllers/header-controller", function(exports, require, module) {
   var Controller, HeaderView, HeaderController;
   Controller = require('controllers/base/controller');
-  HeaderView = require('views/header-view');
+  HeaderView = require('views/shared/header-view');
   module.exports = HeaderController = (function(superclass){
     var prototype = extend$((import$(HeaderController, superclass).displayName = 'HeaderController', HeaderController), superclass).prototype, constructor = HeaderController;
     prototype.initialize = function(){
@@ -217,7 +226,7 @@ window.require.register("controllers/header-controller", function(exports, requi
 window.require.register("controllers/home-controller", function(exports, require, module) {
   var Controller, HomePageView, HomeController;
   Controller = require('controllers/base/controller');
-  HomePageView = require('views/home-page-view');
+  HomePageView = require('views/home/page-view');
   module.exports = HomeController = (function(superclass){
     var prototype = extend$((import$(HomeController, superclass).displayName = 'HomeController', HomeController), superclass).prototype, constructor = HomeController;
     prototype.historyURL = 'home';
@@ -248,7 +257,7 @@ window.require.register("index.static", function(exports, require, module) {
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><title>bDiscuss</title><meta name="viewport" content="width=device-width"/><link rel="stylesheet" href="/stylesheets/app.css"/></head><body><header id="header-container" class="header-container"></header><div class="container outer-container"><div id="page-container" class="page-container"></div></div><script src="/javascripts/vendor.js"></script><script src="/javascripts/app.js"></script><script>require(\'initialize\');</script></body></html>');
+  buf.push('<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><title>bDiscuss</title><meta name="viewport" content="width=device-width"/><link rel="stylesheet" href="/stylesheets/app.css"/></head><body><header id="header-container" class="header-container"></header><div class="container outer-container"><div id="page-container" class="page-container"></div></div><script>window.brunch = window.brunch || {};\nwindow.brunch[\'auto-reload\'] = {enabled: true};</script><script src="/javascripts/vendor.js"></script><script src="/javascripts/app.js"></script><script>require(\'initialize\');</script></body></html>');
   }
   return buf.join("");
   };
@@ -331,6 +340,16 @@ window.require.register("models/forum-collection", function(exports, require, mo
   module.exports = ForumCollection = (function(superclass){
     var prototype = extend$((import$(ForumCollection, superclass).displayName = 'ForumCollection', ForumCollection), superclass).prototype, constructor = ForumCollection;
     prototype.model = model;
+    prototype.fetch = function(){
+      this.add({
+        id: 5,
+        name: 'lol'
+      });
+      return this.add({
+        id: 6,
+        name: 'heya'
+      });
+    };
     function ForumCollection(){
       ForumCollection.superclass.apply(this, arguments);
     }
@@ -350,13 +369,40 @@ window.require.register("models/forum-collection", function(exports, require, mo
 });
 window.require.register("models/forum", function(exports, require, module) {
   var Model, Forum;
-  Model = require('models/base/model');
+  Model = require('./base/model');
   module.exports = Forum = (function(superclass){
     var prototype = extend$((import$(Forum, superclass).displayName = 'Forum', Forum), superclass).prototype, constructor = Forum;
+    prototype.fetch = function(){
+      return this.set({
+        name: "Heya"
+      });
+    };
     function Forum(){
       Forum.superclass.apply(this, arguments);
     }
     return Forum;
+  }(Model));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("models/topic", function(exports, require, module) {
+  var Model, Topic;
+  Model = require('./base/model');
+  module.exports = Topic = (function(superclass){
+    var prototype = extend$((import$(Topic, superclass).displayName = 'Topic', Topic), superclass).prototype, constructor = Topic;
+    function Topic(){
+      Topic.superclass.apply(this, arguments);
+    }
+    return Topic;
   }(Model));
   function extend$(sub, sup){
     function fun(){} fun.prototype = (sub.superclass = sup).prototype;
@@ -412,7 +458,9 @@ window.require.register("views/base/page-view", function(exports, require, modul
   View = require('views/base/view');
   module.exports = PageView = (function(superclass){
     var prototype = extend$((import$(PageView, superclass).displayName = 'PageView', PageView), superclass).prototype, constructor = PageView;
-    prototype.container = '#content-container';
+    prototype.container = '#page-container';
+    prototype.className = 'home-page';
+    prototype.autoRender = true;
     prototype.renderedSubviews = false;
     prototype.initialize = function(){
       var modelOrCollection, rendered, this$ = this;
@@ -539,6 +587,51 @@ window.require.register("views/forums/item-view", function(exports, require, mod
     return obj;
   }
 });
+window.require.register("views/forums/show-view", function(exports, require, module) {
+  var Collection, Topic, View, TopicsListView, template, itemView, ForumsShowView;
+  Collection = require('models/base/collection');
+  Topic = require('models/topic');
+  View = require('views/base/view');
+  TopicsListView = require('views/topics/list-view');
+  template = require('./templates/show');
+  itemView = require('views/topics/item-view');
+  module.exports = ForumsShowView = (function(superclass){
+    var prototype = extend$((import$(ForumsShowView, superclass).displayName = 'ForumsShowView', ForumsShowView), superclass).prototype, constructor = ForumsShowView;
+    prototype.template = template;
+    prototype.container = '#page-container';
+    prototype.className = 'home-page';
+    prototype.autoRender = true;
+    prototype.afterRender = function(){
+      superclass.prototype.afterRender.apply(this, arguments);
+      this.topics = new Collection(null, {
+        model: Topic
+      });
+      this.topics.add({
+        id: 3,
+        title: "Hey there"
+      });
+      return this.subview('topics', new TopicsListView({
+        collection: this.topics,
+        container: this.$('#topics')
+      }));
+    };
+    function ForumsShowView(){
+      ForumsShowView.superclass.apply(this, arguments);
+    }
+    return ForumsShowView;
+  }(View));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
 window.require.register("views/forums/templates/index", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
   attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
@@ -566,7 +659,32 @@ window.require.register("views/forums/templates/item", function(exports, require
   return buf.join("");
   };
 });
-window.require.register("views/header-view", function(exports, require, module) {
+window.require.register("views/forums/templates/show", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<h2>');
+  var __val__ = name
+  buf.push(escape(null == __val__ ? "" : __val__));
+  buf.push('</h2><div id="topics"></div>');
+  }
+  return buf.join("");
+  };
+});
+window.require.register("views/home/templates/home", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<p>Welcome aboard !\nB:Discuss is a kind of forum ... It\'s very cool and you\'ll love it !</p>');
+  }
+  return buf.join("");
+  };
+});
+window.require.register("views/shared/header-view", function(exports, require, module) {
   var view, header, HeaderView;
   view = require('views/base/view');
   header = require('views/templates/header');
@@ -594,34 +712,7 @@ window.require.register("views/header-view", function(exports, require, module) 
     return obj;
   }
 });
-window.require.register("views/home-page-view", function(exports, require, module) {
-  var home, view, HomePageView;
-  home = require('views/templates/home');
-  view = require('views/base/view');
-  module.exports = HomePageView = (function(superclass){
-    var prototype = extend$((import$(HomePageView, superclass).displayName = 'HomePageView', HomePageView), superclass).prototype, constructor = HomePageView;
-    prototype.autoRender = true;
-    prototype.className = 'home-page';
-    prototype.container = '#page-container';
-    prototype.template = home;
-    function HomePageView(){
-      HomePageView.superclass.apply(this, arguments);
-    }
-    return HomePageView;
-  }(view));
-  function extend$(sub, sup){
-    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
-    (sub.prototype = new fun).constructor = sub;
-    if (typeof sup.extended == 'function') sup.extended(sub);
-    return sub;
-  }
-  function import$(obj, src){
-    var own = {}.hasOwnProperty;
-    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
-    return obj;
-  }
-});
-window.require.register("views/layout", function(exports, require, module) {
+window.require.register("views/shared/layout", function(exports, require, module) {
   var chaplin, Layout;
   chaplin = require('chaplin');
   module.exports = Layout = (function(superclass){
@@ -654,13 +745,80 @@ window.require.register("views/templates/header", function(exports, require, mod
   return buf.join("");
   };
 });
-window.require.register("views/templates/home", function(exports, require, module) {
+window.require.register("views/topics/item-view", function(exports, require, module) {
+  var View, template, TopicsItemView;
+  View = require('views/base/view');
+  template = require('./templates/item');
+  module.exports = TopicsItemView = (function(superclass){
+    var prototype = extend$((import$(TopicsItemView, superclass).displayName = 'TopicsItemView', TopicsItemView), superclass).prototype, constructor = TopicsItemView;
+    prototype.template = template;
+    prototype.tagname = 'li';
+    prototype.autoRender = true;
+    function TopicsItemView(){
+      TopicsItemView.superclass.apply(this, arguments);
+    }
+    return TopicsItemView;
+  }(View));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("views/topics/list-view", function(exports, require, module) {
+  var CollectionView, itemView, template, TopicsListView;
+  CollectionView = require('views/base/collection-view');
+  itemView = require('./item-view');
+  template = require('./templates/list');
+  module.exports = TopicsListView = (function(superclass){
+    var prototype = extend$((import$(TopicsListView, superclass).displayName = 'TopicsListView', TopicsListView), superclass).prototype, constructor = TopicsListView;
+    prototype.template = template;
+    prototype.itemView = itemView;
+    prototype.listSelector = '.topic-list';
+    function TopicsListView(){
+      TopicsListView.superclass.apply(this, arguments);
+    }
+    return TopicsListView;
+  }(CollectionView));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("views/topics/templates/item", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
   attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<p>Welcome aboard !\nB:Discuss is a kind of forum ... It\'s very cool and you\'ll love it !</p>');
+  buf.push('<li>');
+  var __val__ = title
+  buf.push(escape(null == __val__ ? "" : __val__));
+  buf.push('</li>');
+  }
+  return buf.join("");
+  };
+});
+window.require.register("views/topics/templates/list", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<h4>Topics</h4><ul class="topic-list"></ul>');
   }
   return buf.join("");
   };

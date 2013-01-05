@@ -1,4 +1,4 @@
-require! <[chaplin controllers/header-controller views/layout mediator routes]>
+require! <[chaplin controllers/header-controller views/shared/layout mediator routes]>
 
 # The application object
 module.exports = class Application extends chaplin.Application

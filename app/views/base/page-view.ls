@@ -1,7 +1,9 @@
 View = require 'views/base/view'
 
 module.exports = class PageView extends View
-  container: '#content-container'
+  container: '#page-container'
+  class-name: 'home-page'
+  autoRender: true
   renderedSubviews: no
 
   initialize: ->
