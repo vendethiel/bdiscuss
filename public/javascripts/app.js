@@ -251,6 +251,44 @@ window.require.register("controllers/home-controller", function(exports, require
     return obj;
   }
 });
+window.require.register("controllers/topics-controller", function(exports, require, module) {
+  var Controller, TopicsShowView, ForumCollection, Forum, TopicsController;
+  Controller = require('controllers/base/controller');
+  TopicsShowView = require('views/topics/show-view');
+  ForumCollection = require('models/forum-collection');
+  Forum = require('models/forum');
+  module.exports = TopicsController = (function(superclass){
+    var prototype = extend$((import$(TopicsController, superclass).displayName = 'TopicsController', TopicsController), superclass).prototype, constructor = TopicsController;
+    prototype.historyURL = 'topics';
+    prototype.title = 'topics';
+    prototype.show = function(arg$){
+      var id;
+      id = arg$.id;
+      this.model = new Topic({
+        id: id
+      });
+      this.model.fetch();
+      return this.view = new TopicsShowView({
+        model: this.model
+      });
+    };
+    function TopicsController(){
+      TopicsController.superclass.apply(this, arguments);
+    }
+    return TopicsController;
+  }(Controller));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
 window.require.register("index.static", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
   attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
@@ -424,8 +462,11 @@ window.require.register("routes", function(exports, require, module) {
     m('forums', 'forums#index', {
       name: 'forums'
     });
-    return m('forum/:id', 'forums#show', {
+    m('forum/:id', 'forums#show', {
       name: 'view_forum'
+    });
+    return m('topic/:id', 'topics#show', {
+      name: 'view_topic'
     });
   };
 });
@@ -599,7 +640,7 @@ window.require.register("views/forums/show-view", function(exports, require, mod
     var prototype = extend$((import$(ForumsShowView, superclass).displayName = 'ForumsShowView', ForumsShowView), superclass).prototype, constructor = ForumsShowView;
     prototype.template = template;
     prototype.container = '#page-container';
-    prototype.className = 'home-page';
+    prototype.className = 'forums-show';
     prototype.autoRender = true;
     prototype.afterRender = function(){
       superclass.prototype.afterRender.apply(this, arguments);
@@ -672,6 +713,33 @@ window.require.register("views/forums/templates/show", function(exports, require
   }
   return buf.join("");
   };
+});
+window.require.register("views/home/page-view", function(exports, require, module) {
+  var home, view, HomePageView;
+  home = require('./templates/home');
+  view = require('views/base/view');
+  module.exports = HomePageView = (function(superclass){
+    var prototype = extend$((import$(HomePageView, superclass).displayName = 'HomePageView', HomePageView), superclass).prototype, constructor = HomePageView;
+    prototype.autoRender = true;
+    prototype.className = 'home-page';
+    prototype.container = '#page-container';
+    prototype.template = home;
+    function HomePageView(){
+      HomePageView.superclass.apply(this, arguments);
+    }
+    return HomePageView;
+  }(view));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
 });
 window.require.register("views/home/templates/home", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
@@ -804,10 +872,12 @@ window.require.register("views/topics/templates/item", function(exports, require
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<li>');
+  buf.push('<li><a');
+  buf.push(attrs({ 'href':("/topic/" + (id) + "") }, {"href":true}));
+  buf.push('>');
   var __val__ = title
   buf.push(escape(null == __val__ ? "" : __val__));
-  buf.push('</li>');
+  buf.push('</a></li>');
   }
   return buf.join("");
   };

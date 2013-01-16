@@ -373,6 +373,17 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+.forums-show {
+  width: 476px;
+  margin: 5px auto;
+  padding: 5px;
+  margin-bottom: 0.5em;
+  color: #fff;
+  background-color: #4276b6;
+}
+.topic-list {
+  list-style-type: square;
+}
 .home-page {
   width: 476px;
   height: 130px;

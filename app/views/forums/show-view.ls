@@ -8,7 +8,7 @@ itemView = require 'views/topics/item-view'
 module.exports = class ForumsShowView extends View
   template: template
   container: '#page-container'
-  class-name: 'home-page'
+  class-name: 'forums-show'
   auto-render: true
 
   after-render: ->
