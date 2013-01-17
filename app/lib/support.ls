@@ -1,11 +1,10 @@
-Chaplin = require 'chaplin'
-utils = require 'lib/utils'
+require! <[chaplin lib/utils]>
 
 # Application-specific feature detection
 # --------------------------------------
 
 # Delegate to Chaplin’s support module
-support = utils.beget Chaplin.support
+support = utils.beget chaplin.support
 
 # _(support).extend
   # someMethod: ->

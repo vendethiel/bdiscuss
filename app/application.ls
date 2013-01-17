@@ -1,4 +1,5 @@
 require! <[chaplin controllers/header-controller views/shared/layout mediator routes]>
+require 'lib/jade-helpers'
 
 # The application object
 module.exports = class Application extends chaplin.Application

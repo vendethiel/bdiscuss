@@ -13,6 +13,7 @@ exports.config =
           'vendor/scripts/jquery-1.8.3.js'
           'vendor/scripts/underscore-1.4.3.js'
           'vendor/scripts/backbone-0.9.9.js'
+          'vendor/scripts/backbone-stickit-0.6.1.js'
 
     stylesheets:
       joinTo:

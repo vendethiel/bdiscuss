@@ -86,6 +86,7 @@ window.require.register("application", function(exports, require, module) {
   layout = require('views/shared/layout');
   mediator = require('mediator');
   routes = require('routes');
+  require('lib/jade-helpers');
   module.exports = Application = (function(superclass){
     var prototype = extend$((import$(Application, superclass).displayName = 'Application', Application), superclass).prototype, constructor = Application;
     prototype.title = 'Brunch example application';
@@ -309,11 +310,25 @@ window.require.register("initialize", function(exports, require, module) {
     return app.initialize();
   });
 });
+window.require.register("lib/jade-helpers", function(exports, require, module) {
+  jade.helpers = {
+    titleize: function(it){
+      if (!it) {
+        return "";
+      }
+      it = it[0].toUpperCase() + it.slice(1);
+      it = it.replace("_", " ");
+      return it.replace(/\s([a-z])/, function(it){
+        return " " + it[1].toUpperCase();
+      });
+    }
+  };
+});
 window.require.register("lib/support", function(exports, require, module) {
-  var Chaplin, utils, support;
-  Chaplin = require('chaplin');
+  var chaplin, utils, support;
+  chaplin = require('chaplin');
   utils = require('lib/utils');
-  support = utils.beget(Chaplin.support);
+  support = utils.beget(chaplin.support);
   module.exports = support;
 });
 window.require.register("lib/utils", function(exports, require, module) {
@@ -332,6 +347,13 @@ window.require.register("models/base/collection", function(exports, require, mod
   module.exports = Collection = (function(superclass){
     var prototype = extend$((import$(Collection, superclass).displayName = 'Collection', Collection), superclass).prototype, constructor = Collection;
     prototype.model = Model;
+    prototype.initialize = function(arg$, options){
+      var that;
+      superclass.prototype.initialize.apply(this, arguments);
+      if ((that = options != null ? options.url : void 8) != null) {
+        return this.url = that;
+      }
+    };
     function Collection(){
       Collection.superclass.apply(this, arguments);
     }
@@ -354,6 +376,55 @@ window.require.register("models/base/model", function(exports, require, module) 
   Chaplin = require('chaplin');
   module.exports = Model = (function(superclass){
     var prototype = extend$((import$(Model, superclass).displayName = 'Model', Model), superclass).prototype, constructor = Model;
+    prototype.forceExt = true;
+    prototype.apiRoot = '';
+    prototype.urlKey = 'id';
+    prototype.urlPath = function(){
+      return '';
+    };
+    prototype.urlParams = function(){
+      return {};
+    };
+    prototype.urlRoot = function(){
+      var urlPath;
+      urlPath = this.urlPath();
+      if (urlPath) {
+        return this.apiRoot + urlPath;
+      } else if (this.collection) {
+        return this.collection.url();
+      } else {
+        throw new Error('Model must redefine url-path');
+      }
+    };
+    prototype.url = function(data){
+      var base, full, that, sep, params, payload, k, v;
+      data == null && (data = '');
+      base = this.urlRoot();
+      full = (that = this.get(this.urlKey)) != null
+        ? base + encodeURIComponent(that) + data
+        : base + data;
+      sep = full.indexOf('?') >= 0 ? '&' : '?';
+      params = this.urlParams();
+      payload = (function(){
+        var i$, ref$, len$, results$ = [];
+        for (i$ = 0, len$ = (ref$ = params).length; i$ < len$; ++i$) {
+          k = i$;
+          v = ref$[i$];
+          if (v != null) {
+            results$.push(k + "=" + v);
+          }
+        }
+        return results$;
+      }()).join('&');
+      if (this.forceExt) {
+        full += ".json";
+      }
+      if (payload) {
+        return full + sep + payload;
+      } else {
+        return full;
+      }
+    };
     function Model(){
       Model.superclass.apply(this, arguments);
     }
@@ -378,15 +449,8 @@ window.require.register("models/forum-collection", function(exports, require, mo
   module.exports = ForumCollection = (function(superclass){
     var prototype = extend$((import$(ForumCollection, superclass).displayName = 'ForumCollection', ForumCollection), superclass).prototype, constructor = ForumCollection;
     prototype.model = model;
-    prototype.fetch = function(){
-      this.add({
-        id: 5,
-        name: 'lol'
-      });
-      return this.add({
-        id: 6,
-        name: 'heya'
-      });
+    prototype.url = function(){
+      return "/forums.json";
     };
     function ForumCollection(){
       ForumCollection.superclass.apply(this, arguments);
@@ -410,10 +474,8 @@ window.require.register("models/forum", function(exports, require, module) {
   Model = require('./base/model');
   module.exports = Forum = (function(superclass){
     var prototype = extend$((import$(Forum, superclass).displayName = 'Forum', Forum), superclass).prototype, constructor = Forum;
-    prototype.fetch = function(){
-      return this.set({
-        name: "Heya"
-      });
+    prototype.urlPath = function(){
+      return "/forums/";
     };
     function Forum(){
       Forum.superclass.apply(this, arguments);
@@ -459,13 +521,13 @@ window.require.register("routes", function(exports, require, module) {
     m('', 'home#index', {
       name: 'home'
     });
-    m('forums', 'forums#index', {
+    m('forums/', 'forums#index', {
       name: 'forums'
     });
     m('forum/:id', 'forums#show', {
       name: 'view_forum'
     });
-    return m('topic/:id', 'topics#show', {
+    m('topic/:id', 'topics#show', {
       name: 'view_topic'
     });
   };
@@ -475,8 +537,8 @@ window.require.register("views/base/collection-view", function(exports, require,
   Chaplin = require('chaplin');
   View = require('views/base/view');
   module.exports = CollectionView = (function(superclass){
-    var prototype = extend$((import$(CollectionView, superclass).displayName = 'CollectionView', CollectionView), superclass).prototype, constructor = CollectionView;
-    prototype.getTemplateFunction = View.prototype.getTemplateFunction;
+    var ref$, prototype = extend$((import$(CollectionView, superclass).displayName = 'CollectionView', CollectionView), superclass).prototype, constructor = CollectionView;
+    ref$ = View.prototype, prototype.getTemplateFunction = ref$.getTemplateFunction, prototype.getTemplateData = ref$.getTemplateData;
     function CollectionView(){
       CollectionView.superclass.apply(this, arguments);
     }
@@ -555,11 +617,28 @@ window.require.register("views/base/view", function(exports, require, module) {
     prototype.getTemplateFunction = function(){
       return this.template;
     };
+    prototype.getTemplateData = function(){
+      return _.extend({}, jade.helpers, superclass.prototype.getTemplateData.apply(this, arguments));
+    };
+    prototype.render = function(){
+      superclass.prototype.render.apply(this, arguments);
+      return this.stickit();
+    };
     function View(){
       View.superclass.apply(this, arguments);
     }
     return View;
   }(Chaplin.View));
+  /*
+    initialize: ->
+      super ...
+      modelOrCollection = @model or @collection
+      if modelOrCollection
+        rendered = no
+        @listenTo modelOrCollection, 'change', ~>
+          @render! unless rendered
+          rendered = yes
+  */
   function extend$(sub, sup){
     function fun(){} fun.prototype = (sub.superclass = sup).prototype;
     (sub.prototype = new fun).constructor = sub;
@@ -611,6 +690,15 @@ window.require.register("views/forums/item-view", function(exports, require, mod
     prototype.template = template;
     prototype.tagname = 'li';
     prototype.autoRender = true;
+    prototype.bindings = {
+      '.name': {
+        observe: 'name',
+        onGet: 'formatName'
+      }
+    };
+    prototype.formatName = function(it){
+      return jade.helpers.titleize(it);
+    };
     function ForumsItemView(){
       ForumsItemView.superclass.apply(this, arguments);
     }
@@ -642,15 +730,22 @@ window.require.register("views/forums/show-view", function(exports, require, mod
     prototype.container = '#page-container';
     prototype.className = 'forums-show';
     prototype.autoRender = true;
+    prototype.bindings = {
+      '#name': {
+        observe: 'name',
+        onGet: 'formatName'
+      }
+    };
+    prototype.formatName = function(it){
+      return jade.helpers.titleize(it);
+    };
     prototype.afterRender = function(){
       superclass.prototype.afterRender.apply(this, arguments);
       this.topics = new Collection(null, {
-        model: Topic
+        model: Topic,
+        url: this.model.url('/topics')
       });
-      this.topics.add({
-        id: 3,
-        title: "Hey there"
-      });
+      this.topics.fetch();
       return this.subview('topics', new TopicsListView({
         collection: this.topics,
         container: this.$('#topics')
@@ -691,11 +786,8 @@ window.require.register("views/forums/templates/item", function(exports, require
   with (locals || {}) {
   var interp;
   buf.push('<li><a');
-  buf.push(attrs({ 'href':("/forum/" + (id) + "") }, {"href":true}));
-  buf.push('>');
-  var __val__ = name
-  buf.push(escape(null == __val__ ? "" : __val__));
-  buf.push('</a></li>');
+  buf.push(attrs({ 'href':("/forum/" + (id) + ""), "class": ('name') }, {"href":true}));
+  buf.push('></a></li>');
   }
   return buf.join("");
   };
@@ -706,10 +798,7 @@ window.require.register("views/forums/templates/show", function(exports, require
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<h2>');
-  var __val__ = name
-  buf.push(escape(null == __val__ ? "" : __val__));
-  buf.push('</h2><div id="topics"></div>');
+  buf.push('<h2 id="name"></h2><div id="topics"></div>');
   }
   return buf.join("");
   };
@@ -822,6 +911,19 @@ window.require.register("views/topics/item-view", function(exports, require, mod
     prototype.template = template;
     prototype.tagname = 'li';
     prototype.autoRender = true;
+    prototype.bindings = {
+      '.title': 'title',
+      '.lock-state': {
+        observe: 'locked',
+        onGet: function(it){
+          if (it) {
+            return ' (locked)';
+          } else {
+            return '';
+          }
+        }
+      }
+    };
     function TopicsItemView(){
       TopicsItemView.superclass.apply(this, arguments);
     }
@@ -873,11 +975,8 @@ window.require.register("views/topics/templates/item", function(exports, require
   with (locals || {}) {
   var interp;
   buf.push('<li><a');
-  buf.push(attrs({ 'href':("/topic/" + (id) + "") }, {"href":true}));
-  buf.push('>');
-  var __val__ = title
-  buf.push(escape(null == __val__ ? "" : __val__));
-  buf.push('</a></li>');
+  buf.push(attrs({ 'href':("/topic/" + (id) + ""), "class": ('title') }, {"href":true}));
+  buf.push('></a><span class="lock-state"></span></li>');
   }
   return buf.join("");
   };

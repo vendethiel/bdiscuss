@@ -5,3 +5,12 @@ module.exports = class TopicsItemView extends View
   template: template
   tagname: 'li'
   autoRender: true
+
+  bindings:
+    '.title': 'title'
+    '.lock-state':
+      observe: 'locked'
+      on-get: ->
+        if it
+          ' (locked)'
+        else ''

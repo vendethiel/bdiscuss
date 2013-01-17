@@ -11,11 +11,22 @@ module.exports = class ForumsShowView extends View
   class-name: 'forums-show'
   auto-render: true
 
+  bindings:
+    '#name':
+      observe: 'name'
+      on-get: 'formatName'
+
+  format-name: ->
+    jade.helpers.titleize it
+
   after-render: ->
     super ...
-    @topics = new Collection null, model: Topic
-    #@topics.url = @model.url '/topics/'
-    @topics.add id: 3 title: "Hey there"
+
+    @topics = new Collection null,
+      model: Topic
+      url: @model.url '/topics'
+    @topics.fetch!
+
     @subview 'topics' new TopicsListView do
       collection: @topics
       container: @$ '#topics'
