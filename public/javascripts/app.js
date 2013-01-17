@@ -911,17 +911,40 @@ window.require.register("views/topics/item-view", function(exports, require, mod
     prototype.template = template;
     prototype.tagname = 'li';
     prototype.autoRender = true;
+    prototype.events = {
+      'click .toggle-edit-title': 'toggleEditTitle',
+      'blur .edit-title': 'toggleEditTitle',
+      'keyup .edit-title': 'keyupEditTitle'
+    };
     prototype.bindings = {
       '.title': 'title',
       '.lock-state': {
         observe: 'locked',
-        onGet: function(it){
-          if (it) {
-            return ' (locked)';
-          } else {
-            return '';
-          }
-        }
+        visible: false
+      },
+      '.lock-toggle': {
+        observe: 'locked'
+      },
+      '.edit-title': {
+        observe: 'title'
+      }
+    };
+    prototype.toggleEditTitle = function(){
+      this.savedTitle = this.$('.toggle-edit-title').is(':visible') ? this.model.get('title') : void 8;
+      this.$('.toggle-edit-title').toggle();
+      this.$('a.title').toggle();
+      this.$('.edit-title').toggle();
+      return false;
+    };
+    prototype.keyupEditTitle = function(arg$){
+      var keyCode;
+      keyCode = arg$.keyCode;
+      switch (keyCode) {
+      case 27:
+        this.model.set('title', this.savedTitle);
+        // fallthrough
+      case 13:
+        this.toggleEditTitle();
       }
     };
     function TopicsItemView(){
@@ -976,7 +999,12 @@ window.require.register("views/topics/templates/item", function(exports, require
   var interp;
   buf.push('<li><a');
   buf.push(attrs({ 'href':("/topic/" + (id) + ""), "class": ('title') }, {"href":true}));
-  buf.push('></a><span class="lock-state"></span></li>');
+  buf.push('></a><input class="eip edit-title"/><span class="toggle-edit-title">✔</span><span class="lock-state">&nbsp;(locked)</span>');
+  if ( (true))
+  {
+  buf.push('&nbsp;&bull; <input type="checkbox" title="lock" class="lock-toggle"/>');
+  }
+  buf.push('</li>');
   }
   return buf.join("");
   };
