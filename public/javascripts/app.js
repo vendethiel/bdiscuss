@@ -844,7 +844,7 @@ window.require.register("views/home/templates/home", function(exports, require, 
 window.require.register("views/shared/header-view", function(exports, require, module) {
   var view, header, HeaderView;
   view = require('views/base/view');
-  header = require('views/templates/header');
+  header = require('./templates/header');
   module.exports = HeaderView = (function(superclass){
     var prototype = extend$((import$(HeaderView, superclass).displayName = 'HeaderView', HeaderView), superclass).prototype, constructor = HeaderView;
     prototype.autoRender = true;
@@ -891,7 +891,7 @@ window.require.register("views/shared/layout", function(exports, require, module
     return obj;
   }
 });
-window.require.register("views/templates/header", function(exports, require, module) {
+window.require.register("views/shared/templates/header", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
   attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
   var buf = [];
@@ -930,18 +930,22 @@ window.require.register("views/topics/item-view", function(exports, require, mod
       }
     };
     prototype.toggleEditTitle = function(){
-      this.savedTitle = this.$('.toggle-edit-title').is(':visible') ? this.model.get('title') : void 8;
-      this.$('.toggle-edit-title').toggle();
+      var toggler;
+      this.savedTitle = (toggler = this.$('.toggle-edit-title')).is(':visible') ? this.model.get('title') : void 8;
+      toggler.toggle();
       this.$('a.title').toggle();
       this.$('.edit-title').toggle();
       return false;
     };
     prototype.keyupEditTitle = function(arg$){
-      var keyCode;
+      var keyCode, ref$;
       keyCode = arg$.keyCode;
       switch (keyCode) {
       case 27:
-        this.model.set('title', this.savedTitle);
+        if (!this.savedTitle) {
+          return;
+        }
+        this.model.set('title', (ref$ = this.savedTitle, delete this.savedTitle, ref$));
         // fallthrough
       case 13:
         this.toggleEditTitle();
@@ -1000,7 +1004,7 @@ window.require.register("views/topics/templates/item", function(exports, require
   buf.push('<li><a');
   buf.push(attrs({ 'href':("/topic/" + (id) + ""), "class": ('title') }, {"href":true}));
   buf.push('></a><input class="eip edit-title"/><span class="toggle-edit-title">✔</span><span class="lock-state">&nbsp;(locked)</span>');
-  if ( (true))
+  if ( true)
   {
   buf.push('&nbsp;&bull; <input type="checkbox" title="lock" class="lock-toggle"/>');
   }

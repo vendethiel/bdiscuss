@@ -1,4 +1,4 @@
-require! <[views/base/view views/templates/header]>
+require! <[views/base/view ./templates/header]>
 
 module.exports = class HeaderView extends view
   autoRender: yes

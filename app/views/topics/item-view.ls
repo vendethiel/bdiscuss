@@ -22,11 +22,11 @@ module.exports = class TopicsItemView extends View
       observe: 'title'
 
   toggle-edit-title: ->
-    @saved-title = if @$ '.toggle-edit-title' .is ':visible'
+    @saved-title = if (toggler = @$ '.toggle-edit-title')is ':visible'
       @model.get 'title' 
-    else undefined #reset it
+    else void #reset it
 
-    @$ '.toggle-edit-title' .toggle!
+    toggler.toggle!
     @$ 'a.title' .toggle!
     @$ '.edit-title' .toggle!
 
@@ -35,6 +35,7 @@ module.exports = class TopicsItemView extends View
   keyup-edit-title: !({key-code}) ->
     switch key-code
     | 27 =>
-      @model.set 'title' @saved-title
+      return unless @saved-title
+      @model.set 'title' delete @saved-title
       fallthrough
     | 13 => @toggle-edit-title!
