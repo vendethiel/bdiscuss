@@ -110,6 +110,7 @@ window.require.register("application", function(exports, require, module) {
       return new headerController;
     };
     prototype.initMediator = function(){
+      mediator.user = null;
       return mediator.seal();
     };
     function Application(){
@@ -311,6 +312,8 @@ window.require.register("initialize", function(exports, require, module) {
   });
 });
 window.require.register("lib/jade-helpers", function(exports, require, module) {
+  var mediator;
+  mediator = require('mediator');
   jade.helpers = {
     titleize: function(it){
       if (!it) {
@@ -321,6 +324,13 @@ window.require.register("lib/jade-helpers", function(exports, require, module) {
       return it.replace(/\s([a-z])/, function(it){
         return " " + it[1].toUpperCase();
       });
+    },
+    currentUser: function(){
+      return mediator.user;
+    },
+    isAdmin: function(){
+      var ref$;
+      return (ref$ = mediator.user) != null ? ref$.get('admin') : void 8;
     }
   };
 });
@@ -515,6 +525,16 @@ window.require.register("models/topic", function(exports, require, module) {
     for (var key in src) if (own.call(src, key)) obj[key] = src[key];
     return obj;
   }
+});
+window.require.register("models/user", function(exports, require, module) {
+  var Model, User;
+  Model = require('./base/model');
+  module.exports = User = (function(){
+    User.displayName = 'User';
+    var prototype = User.prototype, constructor = User;
+    function User(){}
+    return User;
+  }());
 });
 window.require.register("routes", function(exports, require, module) {
   module.exports = function(m){
@@ -1003,10 +1023,10 @@ window.require.register("views/topics/templates/item", function(exports, require
   var interp;
   buf.push('<li><a');
   buf.push(attrs({ 'href':("/topic/" + (id) + ""), "class": ('title') }, {"href":true}));
-  buf.push('></a><input class="eip edit-title"/><span class="toggle-edit-title">✔</span><span class="lock-state">&nbsp;(locked)</span>');
-  if ( true)
+  buf.push('></a>');
+  if ( isAdmin())
   {
-  buf.push('&nbsp;&bull; <input type="checkbox" title="lock" class="lock-toggle"/>');
+  buf.push('<input class="eip edit-title"/><span class="toggle-edit-title">✔</span><span class="lock-state">&nbsp;(locked)</span>&nbsp;&bull; <input type="checkbox" title="lock" class="lock-toggle"/>');
   }
   buf.push('</li>');
   }

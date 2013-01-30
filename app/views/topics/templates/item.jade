@@ -1,9 +1,8 @@
 li
   a.title(href="/topic/#{id}")
-  input.eip.edit-title
-  span.toggle-edit-title ✔
-  span.lock-state &nbsp;(locked)
-
-  if true
+  if isAdmin()
+    input.eip.edit-title
+    span.toggle-edit-title ✔
+    span.lock-state &nbsp;(locked)
     | &nbsp;&bull; 
     input.lock-toggle(type="checkbox", title="lock")
