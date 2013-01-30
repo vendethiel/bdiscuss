@@ -3,9 +3,7 @@ require 'lib/jade-helpers'
 
 # The application object
 module.exports = class Application extends chaplin.Application
-  # Set your application name here so the document title is set to
-  # “Controller title – Site title” (see Layout#adjustTitle)
-  title: 'Brunch example application'
+  title: 'Brunch:discuss'
 
   initialize: ->
     super!
@@ -40,6 +38,7 @@ module.exports = class Application extends chaplin.Application
   # ------------------------------
   initControllers: ->
     new headerController
+    new SessionController
 
   # Create additional mediator properties
   # -------------------------------------
