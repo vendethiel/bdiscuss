@@ -80,16 +80,17 @@
 })();
 
 window.require.register("application", function(exports, require, module) {
-  var chaplin, headerController, layout, mediator, routes, Application;
+  var chaplin, headerController, sessionController, layout, mediator, routes, Application;
   chaplin = require('chaplin');
   headerController = require('controllers/header-controller');
+  sessionController = require('controllers/session-controller');
   layout = require('views/shared/layout');
   mediator = require('mediator');
   routes = require('routes');
   require('lib/jade-helpers');
   module.exports = Application = (function(superclass){
     var prototype = extend$((import$(Application, superclass).displayName = 'Application', Application), superclass).prototype, constructor = Application;
-    prototype.title = 'Brunch example application';
+    prototype.title = 'Brunch:discuss';
     prototype.initialize = function(){
       superclass.prototype.initialize.call(this);
       this.initDispatcher({
@@ -107,7 +108,8 @@ window.require.register("application", function(exports, require, module) {
       });
     };
     prototype.initControllers = function(){
-      return new headerController;
+      new headerController;
+      return new sessionController;
     };
     prototype.initMediator = function(){
       mediator.user = null;
@@ -240,6 +242,49 @@ window.require.register("controllers/home-controller", function(exports, require
       HomeController.superclass.apply(this, arguments);
     }
     return HomeController;
+  }(Controller));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
+window.require.register("controllers/session-controller", function(exports, require, module) {
+  var mediator, Controller, User, SessionController;
+  mediator = require('mediator');
+  Controller = require('./base/controller');
+  User = require('models/user');
+  module.exports = SessionController = (function(superclass){
+    var prototype = extend$((import$(SessionController, superclass).displayName = 'SessionController', SessionController), superclass).prototype, constructor = SessionController;
+    prototype.initialize = function(){
+      superclass.prototype.initialize.apply(this, arguments);
+      return;
+      this.subscribeEvent('login', this.login);
+      this.subscribeEvent('logout', this.logout);
+      this.subscribeEvent('!login', this.triggerLogin);
+      return this.subscribeEvent('!logout', this.triggerLogout);
+    };
+    prototype.showLoginView = function(){
+      if (this.loginView) {
+        return;
+      }
+      this.loadProviders();
+      return this.loginView = new LoginView;
+    };
+    prototype.instantiateAccount = function(it){
+      return mediator.user = new User(it);
+    };
+    prototype.triggerLogin = function(){};
+    function SessionController(){
+      SessionController.superclass.apply(this, arguments);
+    }
+    return SessionController;
   }(Controller));
   function extend$(sub, sup){
     function fun(){} fun.prototype = (sub.superclass = sup).prototype;
@@ -737,13 +782,13 @@ window.require.register("views/forums/item-view", function(exports, require, mod
   }
 });
 window.require.register("views/forums/show-view", function(exports, require, module) {
-  var Collection, Topic, View, TopicsListView, template, itemView, ForumsShowView;
+  var Collection, Topic, View, TopicsListView, template, TopicsFormNewView, ForumsShowView;
   Collection = require('models/base/collection');
   Topic = require('models/topic');
   View = require('views/base/view');
   TopicsListView = require('views/topics/list-view');
   template = require('./templates/show');
-  itemView = require('views/topics/item-view');
+  TopicsFormNewView = require('views/topics/form-new-view');
   module.exports = ForumsShowView = (function(superclass){
     var prototype = extend$((import$(ForumsShowView, superclass).displayName = 'ForumsShowView', ForumsShowView), superclass).prototype, constructor = ForumsShowView;
     prototype.template = template;
@@ -756,20 +801,41 @@ window.require.register("views/forums/show-view", function(exports, require, mod
         onGet: 'formatName'
       }
     };
+    prototype.events = {
+      'click .new-topic': 'showTopicForm'
+    };
     prototype.formatName = function(it){
       return jade.helpers.titleize(it);
     };
-    prototype.afterRender = function(){
-      superclass.prototype.afterRender.apply(this, arguments);
+    prototype.render = function(){
+      superclass.prototype.render.apply(this, arguments);
       this.topics = new Collection(null, {
         model: Topic,
         url: this.model.url('/topics')
       });
       this.topics.fetch();
-      return this.subview('topics', new TopicsListView({
+      this.subview('topics', new TopicsListView({
         collection: this.topics,
         container: this.$('#topics')
       }));
+      return this.createNewTopicView();
+    };
+    prototype.createNewTopicView = function(){
+      var topic, container, formView;
+      topic = new Topic({
+        forum: this.model
+      });
+      container = this.$('.new-topic-form-container');
+      container.hide();
+      formView = new TopicsFormNewView({
+        model: topic,
+        container: container
+      });
+      this.subview('new-topic-form', formView);
+    };
+    prototype.showTopicForm = function(){
+      this.$('.new-topic-form-container').show();
+      this.$('.new-topic').hide();
     };
     function ForumsShowView(){
       ForumsShowView.superclass.apply(this, arguments);
@@ -818,7 +884,7 @@ window.require.register("views/forums/templates/show", function(exports, require
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<h2 id="name"></h2><div id="topics"></div>');
+  buf.push('<h2 id="name"></h2><div class="new-topic-form-container"></div><a href="#" class="new-topic">New Topic</a><div id="topics"></div>');
   }
   return buf.join("");
   };
@@ -922,6 +988,31 @@ window.require.register("views/shared/templates/header", function(exports, requi
   return buf.join("");
   };
 });
+window.require.register("views/topics/form-new-view", function(exports, require, module) {
+  var View, template, TopicsFormNewView;
+  View = require('views/base/view');
+  template = require('./templates/form-new');
+  module.exports = TopicsFormNewView = (function(superclass){
+    var prototype = extend$((import$(TopicsFormNewView, superclass).displayName = 'TopicsFormNewView', TopicsFormNewView), superclass).prototype, constructor = TopicsFormNewView;
+    prototype.template = template;
+    prototype.autoRender = true;
+    function TopicsFormNewView(){
+      TopicsFormNewView.superclass.apply(this, arguments);
+    }
+    return TopicsFormNewView;
+  }(View));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
+});
 window.require.register("views/topics/item-view", function(exports, require, module) {
   var View, template, TopicsItemView;
   View = require('views/base/view');
@@ -1014,6 +1105,17 @@ window.require.register("views/topics/list-view", function(exports, require, mod
     for (var key in src) if (own.call(src, key)) obj[key] = src[key];
     return obj;
   }
+});
+window.require.register("views/topics/templates/form-new", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  buf.push('<form><fieldset><legend>New Topic</legend><label for="title">Title</label><br/><input name="title"/><br/><br/><label for="content">Content</label><br/><textarea name="content">Blah blah</textarea><br/><br/><input type="submit"/></fieldset></form>');
+  }
+  return buf.join("");
+  };
 });
 window.require.register("views/topics/templates/item", function(exports, require, module) {
   module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {

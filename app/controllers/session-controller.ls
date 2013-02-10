@@ -1,26 +1,18 @@
 mediator = require 'mediator'
 Controller = require './base/controller'
-User = require 'models/User'
-LoginView = require 'views/LoginView'
+User = require 'models/user'
+#LoginView = require 'views/shared/login-view'
 #provider = require 'provider'
 
 module.exports = class SessionController extends Controller
-#  service-provider: new 
-
   initialize: ->
+    super ...
+    return # for now
     @subscribe-event 'login' @login
     @subscribe-event 'logout' @logout
 
     @subscribe-event '!login' @trigger-login
     @subscribe-event '!logout' @trigger-logout
-
-    @load!
-
-  load: ->
-  	@load-providers!
-
-  load-providers: ->
-    provider.load!
 
   show-login-view: ->
     return if @login-view

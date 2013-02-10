@@ -3,7 +3,7 @@ Topic = require 'models/topic'
 View = require 'views/base/view'
 TopicsListView = require 'views/topics/list-view'
 template = require './templates/show'
-itemView = require 'views/topics/item-view'
+TopicsFormNewView = require 'views/topics/form-new-view'
 
 module.exports = class ForumsShowView extends View
   template: template
@@ -16,10 +16,13 @@ module.exports = class ForumsShowView extends View
       observe: 'name'
       on-get: 'formatName'
 
+  events:
+    'click .new-topic': 'showTopicForm'
+
   format-name: ->
     jade.helpers.titleize it
 
-  after-render: ->
+  render: ->
     super ...
 
     @topics = new Collection null,
@@ -30,3 +33,17 @@ module.exports = class ForumsShowView extends View
     @subview 'topics' new TopicsListView do
       collection: @topics
       container: @$ '#topics'
+
+    @create-new-topic-view!
+
+  create-new-topic-view: !->
+    topic = new Topic forum: @model
+    container = @$ '.new-topic-form-container'
+    container.hide!
+    formView = new TopicsFormNewView {model: topic, container}
+
+    @subview 'new-topic-form' formView
+
+  show-topic-form: !->
+    @$ '.new-topic-form-container' .show!
+    @$ '.new-topic' .hide!

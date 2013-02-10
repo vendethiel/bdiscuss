@@ -1,4 +1,4 @@
-require! <[chaplin controllers/header-controller views/shared/layout mediator routes]>
+require! <[chaplin controllers/header-controller controllers/session-controller views/shared/layout mediator routes]>
 require 'lib/jade-helpers'
 
 # The application object
@@ -38,7 +38,7 @@ module.exports = class Application extends chaplin.Application
   # ------------------------------
   initControllers: ->
     new headerController
-    new SessionController
+    new sessionController
 
   # Create additional mediator properties
   # -------------------------------------
