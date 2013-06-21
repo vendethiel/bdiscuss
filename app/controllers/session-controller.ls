@@ -8,11 +8,6 @@ module.exports = class SessionController extends Controller
   initialize: ->
     super ...
     return # for now
-    @subscribe-event 'login' @login
-    @subscribe-event 'logout' @logout
-
-    @subscribe-event '!login' @trigger-login
-    @subscribe-event '!logout' @trigger-logout
 
   show-login-view: ->
     return if @login-view

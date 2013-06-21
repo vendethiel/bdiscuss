@@ -264,11 +264,6 @@ window.require.register("controllers/session-controller", function(exports, requ
     var prototype = extend$((import$(SessionController, superclass).displayName = 'SessionController', SessionController), superclass).prototype, constructor = SessionController;
     prototype.initialize = function(){
       superclass.prototype.initialize.apply(this, arguments);
-      return;
-      this.subscribeEvent('login', this.login);
-      this.subscribeEvent('logout', this.logout);
-      this.subscribeEvent('!login', this.triggerLogin);
-      return this.subscribeEvent('!logout', this.triggerLogout);
     };
     prototype.showLoginView = function(){
       if (this.loginView) {
@@ -983,10 +978,56 @@ window.require.register("views/shared/templates/header", function(exports, requi
   var buf = [];
   with (locals || {}) {
   var interp;
-  buf.push('<ul><li><a href="/">Index</a></li><li><a href="/forums">Forums</a></li></ul>');
+  buf.push('<div id="user-nav"></div><ul><li><a href="/">Index</a></li><li><a href="/forums">Forums</a></li></ul>');
   }
   return buf.join("");
   };
+});
+window.require.register("views/shared/templates/user-nav", function(exports, require, module) {
+  module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+  attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+  var buf = [];
+  with (locals || {}) {
+  var interp;
+  if ( current-user().get('admin'))
+  {
+  buf.push('is admin');
+  }
+  else
+  {
+  buf.push('is not.');
+  }
+  }
+  return buf.join("");
+  };
+});
+window.require.register("views/shared/user-nav", function(exports, require, module) {
+  var view, userNav, HeaderView;
+  view = require('views/base/view');
+  userNav = require('./templates/user-nav');
+  module.exports = HeaderView = (function(superclass){
+    var prototype = extend$((import$(HeaderView, superclass).displayName = 'HeaderView', HeaderView), superclass).prototype, constructor = HeaderView;
+    prototype.autoRender = true;
+    prototype.className = 'user-nav';
+    prototype.container = '#user-nav';
+    prototype.id = 'header';
+    prototype.template = userNav;
+    function HeaderView(){
+      HeaderView.superclass.apply(this, arguments);
+    }
+    return HeaderView;
+  }(view));
+  function extend$(sub, sup){
+    function fun(){} fun.prototype = (sub.superclass = sup).prototype;
+    (sub.prototype = new fun).constructor = sub;
+    if (typeof sup.extended == 'function') sup.extended(sub);
+    return sub;
+  }
+  function import$(obj, src){
+    var own = {}.hasOwnProperty;
+    for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+    return obj;
+  }
 });
 window.require.register("views/topics/form-new-view", function(exports, require, module) {
   var View, template, TopicsFormNewView;

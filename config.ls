@@ -1,5 +1,7 @@
 exports.config =
-  # See http://brunch.readthedocs.org/en/latest/config.html for documentation.
+  paths:
+    public: '_public'
+
   files:
     javascripts:
       joinTo:
@@ -28,6 +30,14 @@ exports.config =
 
     templates:
       joinTo: 'javascripts/app.js'
+
+  server:
+    path: '../angular-test/server.ls'
+    base: ''
+    run: false
+
+    #db: "#protocol://#user:#password@#host/#database"
+    db: "mysql://root@localhost/ng-test?debug=true"
 
   plugins:
     static_jade:                  # all optionals
