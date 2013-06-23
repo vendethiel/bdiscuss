@@ -9,7 +9,7 @@ module.exports = class Application extends chaplin.Application
     super!
 
     # Initialize core components
-    @initDispatcher controllerSuffix: '-controller'
+    @initDispatcher controller-suffix: '-controller'
     @initLayout!
     @initMediator!
 
@@ -18,6 +18,8 @@ module.exports = class Application extends chaplin.Application
 
     # Register all routes and start routing
     @initRouter routes
+
+    @startRouting!
     # You might pass Router/History options as the second parameter.
     # Chaplin enables pushState per default and Backbone uses / as
     # the root per default. You might change that in the options

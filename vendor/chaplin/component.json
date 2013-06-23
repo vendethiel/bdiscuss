@@ -1,0 +1,17 @@
+{
+  "name": "chaplin",
+  "version": "0.9.0",
+  "main": "amd/chaplin.js",
+  "dependencies": {
+    "backbone": ">= 1.0.0"
+  },
+  "gitHead": "4211b74469e40eac6dd0442e99b836986814ecd3",
+  "readme": "# Chaplin downloads\n\nStable versions of Chaplin.\n",
+  "readmeFilename": "README.md",
+  "_id": "chaplin@0.9.0",
+  "description": "Stable versions of Chaplin.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/chaplinjs/downloads.git"
+  }
+}

@@ -11,15 +11,4 @@ module.exports = class View extends Chaplin.View
 
   render: ->
     super ...
-    @stickit!
-
-/*
-  initialize: ->
-    super ...
-    modelOrCollection = @model or @collection
-    if modelOrCollection
-      rendered = no
-      @listenTo modelOrCollection, 'change', ~>
-        @render! unless rendered
-        rendered = yes
-*/
+    @stickit! if @model

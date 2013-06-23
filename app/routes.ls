@@ -1,5 +1,9 @@
 module.exports = !(m) ->
-  m '' 'home#index' name: 'home'
-  m 'forums/' 'forums#index' name: 'forums'
-  m 'forum/:id' 'forums#show' name: 'view_forum'
-  m 'topic/:id' 'topics#show' name: 'view_topic'
+  m '' 'home#index'
+  m 'forums/' 'forum#index'
+  m 'forum/:id' 'forum#show'
+  # this could be /forum/:forum_id/topic/:id
+  # question being: do we want that?
+  # that'd map pretty closely to what Rails does
+  # but once again, is that wanted?
+  m 'topic/:id' 'topic#show'

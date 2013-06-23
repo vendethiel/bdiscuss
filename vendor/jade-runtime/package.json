@@ -1,0 +1,10 @@
+{
+  "name": "jade-runtime",
+  "version": "0.0.2",
+  "description": "A slightly modified version of Jade's runtime.js that works in a browser environment.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
+}

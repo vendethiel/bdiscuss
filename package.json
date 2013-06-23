@@ -16,18 +16,17 @@
     "test": "brunch test"
   },
   "dependencies": {
-    "auto-reload-brunch": "> 1.0 < 1.5",
-    "javascript-brunch": ">= 1.0 < 1.5",
-    "coffee-script-brunch": "*",
-    "LiveScript-brunch": "*",
+    "auto-reload-brunch": "1.6.3",
+    "some-javascript-brunch": "1.6.0",
+    "LiveScript-brunch": "1.6.0",
 
-    "css-brunch": ">= 1.0 < 1.5",
-    "stylus-brunch": ">= 1.0 < 1.5",
+    "some-stylesheet-brunch": "1.6.0",
+    "stylus-brunch": "1.6.1",
 
-    "jade-brunch": "*",
+    "jade-brunch": "1.5.1",
     "static-jade-brunch": "*",
 
-    "uglify-js-brunch": ">= 1.0 < 1.5",
-    "clean-css-brunch": ">= 1.0 < 1.5"
+    "uglify-js-brunch": "1.7.0",
+    "clean-css-brunch": "1.6.0"
   }
 }

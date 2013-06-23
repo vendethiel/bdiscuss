@@ -1,14 +1,14 @@
 Collection = require 'models/base/collection'
 Topic = require 'models/topic'
 View = require 'views/base/view'
-TopicsListView = require 'views/topics/list-view'
+TopicListView = require 'views/topics/list-view'
 template = require './templates/show'
-TopicsFormNewView = require 'views/topics/form-new-view'
+TopicFormNewView = require 'views/topics/form-new-view'
 
-module.exports = class ForumsShowView extends View
+module.exports = class ForumShowView extends View
   template: template
   container: '#page-container'
-  class-name: 'forums-show'
+  class-name: 'container'
   auto-render: true
 
   bindings:
@@ -19,8 +19,7 @@ module.exports = class ForumsShowView extends View
   events:
     'click .new-topic': 'showTopicForm'
 
-  format-name: ->
-    jade.helpers.titleize it
+  format-name: jade.helpers.titleize
 
   render: ->
     super ...
@@ -30,7 +29,7 @@ module.exports = class ForumsShowView extends View
       url: @model.url '/topics'
     @topics.fetch!
 
-    @subview 'topics' new TopicsListView do
+    @subview 'topics' new TopicListView do
       collection: @topics
       container: @$ '#topics'
 
@@ -38,9 +37,9 @@ module.exports = class ForumsShowView extends View
 
   create-new-topic-view: !->
     topic = new Topic forum: @model
-    container = @$ '.new-topic-form-container'
-    container.hide!
-    formView = new TopicsFormNewView {model: topic, container}
+    @$ '.new-topic-form-container'
+      ..hide!
+      formView = new TopicFormNewView model: topic, container: ..
 
     @subview 'new-topic-form' formView
 

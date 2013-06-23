@@ -1,9 +1,9 @@
 Chaplin = require 'chaplin'
 
 module.exports = class Model extends Chaplin.Model
-  #waiting on API for these 2
+  # currently, only emulated through app/assets LEL
   force-ext: true
-  api-root: ''
+  api-root: "/api/"
 
   url-key: 'id'
 
@@ -19,7 +19,7 @@ module.exports = class Model extends Chaplin.Model
     else if @collection
       @collection.url!
     else
-      throw new Error('Model must redefine url-path')
+      throw new Error 'Model must redefine url-path'
 
   url: (data = '') ->
     base = @url-root!

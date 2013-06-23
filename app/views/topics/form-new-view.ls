@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 template = require './templates/form-new'
 
-module.exports = class TopicsFormNewView extends View
+module.exports = class TopicFormNewView extends View
   template: template
   autoRender: true

@@ -1,11 +1,11 @@
 CollectionView = require 'views/base/collection-view'
-ForumsItemView = require './item-view'
+ForumItemView = require './item-view'
 template = require './templates/index'
 
-module.exports = class ForumsIndexView extends CollectionView
+module.exports = class ForumIndexView extends CollectionView
   template: template
   class-name: 'home-page'
   container: '#page-container'
   list-selector: '.forum-list'
-  item-view: ForumsItemView
+  item-view: ForumItemView
   auto-render: true
