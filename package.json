@@ -1,20 +1,6 @@
 {
-  "author": "Your Name",
-  "name": "package-name",
-  "description": "Package description",
-  "version": "0.0.1",
-  "homepage": "",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "engines": {
-    "node": "~0.6.10 || 0.8 || 0.9"
-  },
-  "scripts": {
-    "start": "brunch watch --server",
-    "test": "brunch test"
-  },
+  "name": "bdiscuss",
+  "github": "Nami-Doc/bdiscuss",
   "dependencies": {
     "auto-reload-brunch": "1.6.3",
     "some-javascript-brunch": "1.6.0",
@@ -24,7 +10,8 @@
     "stylus-brunch": "1.6.1",
 
     "jade-brunch": "1.5.1",
-    "static-jade-brunch": "*",
+    "static-jade-brunch": "1.4.11",
+    "jade-angularjs-brunch2": "1.6.1",
 
     "uglify-js-brunch": "1.7.0",
     "clean-css-brunch": "1.6.0"

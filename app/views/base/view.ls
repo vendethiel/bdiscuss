@@ -1,4 +1,5 @@
 Chaplin = require 'chaplin'
+utils = require 'lib/utils'
 
 module.exports = class View extends Chaplin.View
   # Precompiled templates function initializer.
@@ -6,7 +7,7 @@ module.exports = class View extends Chaplin.View
     @template
 
   getTemplateData: ->
-    _.extend {}, jade.helpers, super ...
+    utils.beget(utils) <<<< super!
 
 
   render: ->

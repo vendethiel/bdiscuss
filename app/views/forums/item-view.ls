@@ -1,5 +1,6 @@
 View = require 'views/base/view'
 template = require './templates/item'
+utils = require 'lib/utils'
 
 module.exports = class ForumItemView extends View
   template: template
@@ -11,4 +12,4 @@ module.exports = class ForumItemView extends View
       observe: 'name'
       on-get: 'formatName'
 
-  format-name: jade.helpers.titleize
+  format-name: utils.titleize

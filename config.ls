@@ -1,7 +1,7 @@
 assets =
   javascripts:
     'vendor/jquery/jquery.js'
-    'vendor/underscore/underscore.js'
+    'vendor/lodash/dist/lodash.js'
     'vendor/backbone/backbone.js'
     'vendor/chaplin/brunch/chaplin.js'
     'vendor/backbone.stickit/backbone.stickit.js'
@@ -16,26 +16,23 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'javascripts/app.js': /^app/
-        'javascripts/vendor.js': /^vendor/
+        'js/app.js': /^app/
+        'js/vendor.js': /^vendor/
       order:
         before: assets.javascripts
 
+    templates:
+      joinTo: 'js/app.js'
+
     stylesheets:
       joinTo:
-        'stylesheets/app.css': /^(app|vendor)/
+        'css/app.css': /^(app|vendor)/
       order:
         before: assets.stylesheets
-        #after:
-        #  'vendor/styles/helpers.css'
-
-    templates:
-      joinTo: 'javascripts/app.js'
 
   plugins:
+    jade: {+pretty}
+    static_jade:
+      extension:  '.static.jade'
     javascripts: assets.javascripts
     stylesheets: assets.stylesheets
-    static_jade:
-      options:
-        pretty: true
-      extension: ".static.jade"

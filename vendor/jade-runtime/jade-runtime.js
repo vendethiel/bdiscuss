@@ -4,7 +4,7 @@
  * Copyright(c) 2010 TJ Holowaychuk <tj@vision-media.ca>
  * MIT Licensed
  */
-jade = {};
+var jade = {};
 
 /**
  * Lame Array.isArray() polyfill for now.

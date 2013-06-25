@@ -1,5 +1,4 @@
 require! <[chaplin controllers/header-controller controllers/session-controller views/shared/layout mediator routes]>
-require 'lib/jade-helpers'
 
 # The application object
 module.exports = class Application extends chaplin.Application
@@ -9,17 +8,17 @@ module.exports = class Application extends chaplin.Application
     super!
 
     # Initialize core components
-    @initDispatcher controller-suffix: '-controller'
-    @initLayout!
-    @initMediator!
+    @init-dispatcher controller-suffix: '-controller'
+    @init-layout!
+    @init-mediator!
 
     # Application-specific scaffold
-    @initControllers!
+    @init-controllers!
 
     # Register all routes and start routing
-    @initRouter routes
+    @init-router routes
 
-    @startRouting!
+    @start-routing!
     # You might pass Router/History options as the second parameter.
     # Chaplin enables pushState per default and Backbone uses / as
     # the root per default. You might change that in the options
@@ -31,20 +30,20 @@ module.exports = class Application extends chaplin.Application
 
   # Override standard layout initializer
   # ------------------------------------
-  initLayout: ->
+  init-layout: ->
     # Use an application-specific Layout class. Currently this adds
     # no features to the standard Chaplin Layout, it’s an empty placeholder.
     @layout = new layout {@title}
 
   # Instantiate common controllers
   # ------------------------------
-  initControllers: ->
+  init-controllers: ->
     new headerController
     new sessionController
 
   # Create additional mediator properties
   # -------------------------------------
-  initMediator: ->
+  init-mediator: ->
     # Add additional application-specific properties and methods
     mediator.user = null
 

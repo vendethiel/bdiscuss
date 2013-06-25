@@ -4,6 +4,7 @@ View = require 'views/base/view'
 TopicListView = require 'views/topics/list-view'
 template = require './templates/show'
 TopicFormNewView = require 'views/topics/form-new-view'
+utils = require 'lib/utils'
 
 module.exports = class ForumShowView extends View
   template: template
@@ -19,7 +20,7 @@ module.exports = class ForumShowView extends View
   events:
     'click .new-topic': 'showTopicForm'
 
-  format-name: jade.helpers.titleize
+  format-name: utils.titleize
 
   render: ->
     super ...
