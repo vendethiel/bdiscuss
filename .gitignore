@@ -23,6 +23,6 @@ Thumbs.db
 tmp/
 
 # Brunch output folder.
-_public/
+_public
 
-node_modules/
+node_modules
