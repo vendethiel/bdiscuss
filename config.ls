@@ -30,6 +30,10 @@ exports.config =
       order:
         before: assets.stylesheets
 
+  server:
+    path: 'server.ls'
+    db: "mysql://root@localhost/bdiscuss?debug=true"
+
   plugins:
     jade: {+pretty}
     static_jade:

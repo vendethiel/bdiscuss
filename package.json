@@ -14,6 +14,15 @@
     "jade-angularjs-brunch2": "1.6.1",
 
     "uglify-js-brunch": "1.7.0",
-    "clean-css-brunch": "1.6.0"
+    "clean-css-brunch": "1.6.0",
+
+
+    "mysql": "2.0.0-alpha8",
+    "orm": "2.0.12",
+
+    "express": "3.2.4",
+    "express-resource": "1.0.0",
+
+    "express-orm-handler-user": "0.0.1"
   }
 }
