@@ -2,6 +2,8 @@ Chaplin = require 'chaplin'
 utils = require 'lib/utils'
 
 module.exports = class View extends Chaplin.View
+  auto-render: true
+
   # Precompiled templates function initializer.
   getTemplateFunction: ->
     @template

@@ -4,7 +4,6 @@ template = require './templates/item'
 module.exports = class TopicItemView extends View
   template: template
   tagname: 'li'
-  autoRender: true
 
   events:
     'click .toggle-edit-title': 'toggleEditTitle'

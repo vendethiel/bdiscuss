@@ -1,5 +1,7 @@
 {
+	"id": 1,
 	"title": "Hey bro",
+	"locked": false,
 	"messages": [{
 		"author": {
 			"id": 1,

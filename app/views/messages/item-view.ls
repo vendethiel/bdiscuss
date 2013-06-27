@@ -4,7 +4,6 @@ template = require './templates/item'
 module.exports = class ForumItemView extends View
   template: template
   tag-name: 'div'
-  auto-render: 'true'
 
   bindings:
     '.author-link':

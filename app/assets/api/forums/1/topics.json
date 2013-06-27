@@ -1,5 +1,6 @@
 [{
 	"id": 1,
 	"title": "Hey you",
-	"forum": 1
+	"forum": 1,
+	"locked": false
 }]

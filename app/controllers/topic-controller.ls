@@ -9,5 +9,5 @@ module.exports = class TopicController extends Controller
 
   show: !({id}) ->
     @model = new Topic {id}
-    @model.fetch!
     @view = new TopicShowView {@model}
+    @model.fetch!then @view~render

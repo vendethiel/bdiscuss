@@ -1,12 +1,11 @@
 require! <[views/base/view ./templates/header ./user-nav-view]>
 
 module.exports = class HeaderView extends view
-  autoRender: yes
+  template: header
   className: 'header'
   container: '#header-container'
   id: 'header'
   tagName: 'header'
-  template: header
 
   render: ->
     super!

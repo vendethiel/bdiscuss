@@ -5,7 +5,6 @@ utils = require 'lib/utils'
 module.exports = class ForumItemView extends View
   template: template
   tag-name: 'li'
-  auto-render: true
 
   bindings:
     '.name':
