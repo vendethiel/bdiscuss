@@ -1,6 +1,6 @@
 require! <[chaplin views/shared/layout mediator routes]>
 
-/* Chaplin 0.10 !
+/* Waiting for Chaplin 0.10
 module.exports = class Application extends chaplin.Application
   title: 'Brunch:discuss'
 
