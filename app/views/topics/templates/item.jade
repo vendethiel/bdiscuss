@@ -1,5 +1,5 @@
 li
-  a.title(href="/topic/#{id}")
+  a.title(href=url("topic#show", {id: id}))
   if locked
     span.lock-state &nbsp;(locked)
   if isAdmin()

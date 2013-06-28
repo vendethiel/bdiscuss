@@ -1,4 +1,4 @@
-require! <[express express-resource]>
+require! <[express express-resource express-orm-handler]>
 
 app = module.exports = express!
 
@@ -17,13 +17,14 @@ app.use express.session secret: 'lel-brunch-discuss-lol'
 
 /**
  * Express handlers
+ * generate getters, ie "req.getUser"
  */
-app.use require 'express-orm-handler-user'
+app.use express-orm-handler 'user'
 
 /**
  * Routes
  */
-#app.use '/session' require './api/session'
+app.use '/session' require 'express-orm-api-session'
 
 /**
  * Resources

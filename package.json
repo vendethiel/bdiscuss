@@ -23,6 +23,7 @@
     "express": "3.2.4",
     "express-resource": "1.0.0",
 
-    "express-orm-handler-user": "0.0.1"
+    "express-orm-handler": "0.0.2",
+    "express-orm-api-session": "0.0.1"
   }
 }

@@ -1,11 +1,9 @@
 Chaplin = require 'chaplin'
 mediator = require 'mediator'
 
-# Application-specific utilities
-# ------------------------------
-
 # Delegate to Chaplin’s utils module
-utils = Chaplin.utils.beget Chaplin.utils
+{utils, helpers} = Chaplin
+utils .= beget utils
 
 _ utils .extend do
   titleize: ->
@@ -19,5 +17,8 @@ _ utils .extend do
 
   is-admin: ->
     mediator.user?get 'admin'
+
+  url: /*(route, ...params)*/ ->
+    helpers.reverse ...
 
 module.exports = utils

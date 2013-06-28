@@ -2,12 +2,12 @@ require! <[views/base/view ./templates/header ./user-nav-view]>
 
 module.exports = class HeaderView extends view
   template: header
-  className: 'header'
-  container: '#header-container'
-  id: 'header'
-  tagName: 'header'
+  region: 'header'
+  class-name: 'header'
+  tag-name: 'header'
 
-  render: ->
-    super!
-    @subview 'user-nav' new userNavView do
-      container: @$ '#user-nav-container'
+  regions:
+    '#user-nav': 'user-nav'
+
+  #@subview 'user-nav' new userNavView do
+  #container: @$ '#user-nav-container'

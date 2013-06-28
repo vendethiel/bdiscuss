@@ -1,5 +1,6 @@
 View = require 'views/base/view'
 template = require './templates/item'
+utils = require 'lib/utils'
 
 module.exports = class ForumItemView extends View
   template: template
@@ -9,5 +10,5 @@ module.exports = class ForumItemView extends View
     '.author-link':
       observe: 'author'
       update-method: 'html'
-      on-get: ({id, name}) -> "<a href='/user/#id'>#name</a>"
+      on-get: ({id, name}) -> "<a href='#{url 'user#show' {id}}'>#name</a>"
     '.content': 'content'

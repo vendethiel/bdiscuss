@@ -6,7 +6,6 @@ module.exports = class TopicController extends Controller
   historyURL: 'topics'
   title: 'topics'
 
-
   show: !({id}) ->
     @model = new Topic {id}
     @view = new TopicShowView {@model}

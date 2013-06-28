@@ -4,3 +4,4 @@ module.exports = class UserNav extends view
   template: user-nav
   className: 'user-nav'
   id: 'user-nav'
+  region: 'user-nav'

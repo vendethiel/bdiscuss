@@ -1,12 +1,11 @@
 Collection = require 'models/base/collection'
 Message = require 'models/message'
-View = require 'views/base/view'
+PageView = require 'views/base/page-view'
 template = require './templates/show'
 MessageListView = require 'views/messages/list-view'
 
-module.exports = class TopicShowView extends View
+module.exports = class TopicShowView extends PageView
   template: template
-  container: '#page-container'
   class-name: 'container'
 
   bindings:

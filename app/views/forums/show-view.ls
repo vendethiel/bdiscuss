@@ -1,16 +1,13 @@
 Collection = require 'models/base/collection'
 Topic = require 'models/topic'
-View = require 'views/base/view'
+PageView = require 'views/base/page-view'
 TopicListView = require 'views/topics/list-view'
 template = require './templates/show'
 TopicFormNewView = require 'views/topics/form-new-view'
 utils = require 'lib/utils'
 
-module.exports = class ForumShowView extends View
+module.exports = class ForumShowView extends PageView
   template: template
-  container: '#page-container'
-  class-name: 'container'
-  auto-render: true
 
   bindings:
     '#name':

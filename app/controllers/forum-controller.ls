@@ -15,5 +15,5 @@ module.exports = class ForumController extends Controller
 
   show: ({id}) ->
     @model = new Forum {id}
-    @model.fetch!
     @view = new ForumShowView {@model}
+    @model.fetch!
