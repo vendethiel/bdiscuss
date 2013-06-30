@@ -1,6 +1,6 @@
 View = require 'views/base/view'
 template = require './templates/item'
-utils = require 'lib/utils'
+{url} = require 'lib/utils'
 
 module.exports = class ForumItemView extends View
   template: template

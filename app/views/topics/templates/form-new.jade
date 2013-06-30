@@ -1,19 +1,9 @@
-form
-  fieldset
+if currentUser()
+  button.new-topic.active New Topic
+  fieldset.fields
     legend New Topic
 
-    label(for="title") Title
-    br
-    input(name="title")
+    input.title(name="title", for="title", placeholder="Title")
+    textarea.content(name="content", placeholder="Content")
 
-    br
-    br
-
-    label(for="content") Content
-    br
-    textarea(name="content") Blah blah
-
-    br
-    br
-
-    input(type="submit")
+    input(type="submit", value="Submit")

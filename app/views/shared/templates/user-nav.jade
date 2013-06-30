@@ -1,10 +1,9 @@
 if currentUser()
-	p You're logged in as #{currentUser().username}. 
-	if isAdmin()
-		span You're an admin.
+  p You're logged in as #{currentUser().get('username')}. 
+    if isAdmin()
+      span You're an admin.
 else
-	p You're logged off. 
-		a(href="/login") Login in
-		= " or "
-		a(href="/register") Register
-		| .
+  p You're logged off. 
+    a(href="/login") Login in 
+    | or 
+    a(href="/register") Register.

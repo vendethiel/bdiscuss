@@ -4,9 +4,8 @@ require! <[chaplin views/shared/layout mediator routes]>
 module.exports = class Application extends chaplin.Application
   title: 'Brunch:discuss'
 
-  init-layout: (options = {}) ->
-    options <<< {@title}
-    @layout = new layout options
+  init-layout: !->
+    @layout = new layout it
 
   init-mediator: !->
     Chaplin.mediator.user = null
@@ -47,7 +46,8 @@ module.exports = class Application extends chaplin.Application
   # -------------------------------------
   init-mediator: ->
     # Add additional application-specific properties and methods
+    u = username: 'hey' admin: 1
     mediator <<<
-      user: null
+      user: get: -> u[it]
 
     mediator.seal!

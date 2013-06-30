@@ -1,7 +1,6 @@
 Chaplin = require 'chaplin'
 
 module.exports = class Model extends Chaplin.Model
-  # currently, only emulated through app/assets LEL
   force-ext: true
   api-root: "/api/"
 

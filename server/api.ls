@@ -29,5 +29,5 @@ app.use '/session' require 'express-orm-api-session'
 /**
  * Resources
  */
-#app.resource 'animes' require './api/animes'
-#app.resource 'articles' require './api/articles'
+app.resource 'forums' require './api/forums'
+app.resource 'topics' require './api/topics'
