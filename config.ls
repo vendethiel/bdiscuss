@@ -5,7 +5,6 @@ assets =
     'vendor/backbone/backbone.js'
     'vendor/chaplin/brunch/chaplin.js'
     'vendor/backbone.stickit/backbone.stickit.js'
-    'vendor/jade-runtime/jade-runtime.js'
   stylesheets:
     ...
 
@@ -17,7 +16,7 @@ exports.config =
     javascripts:
       joinTo:
         'js/app.js': /^app/
-        'js/vendor.js': /^vendor/
+        'js/vendor.js': /^(vendor|node_modules)/
       order:
         before: assets.javascripts
 

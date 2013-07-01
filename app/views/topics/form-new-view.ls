@@ -25,3 +25,9 @@ module.exports = class TopicFormNewView extends FormView
     @$ '.new-topic' .toggleClass 'active'
     @$ '.fields' .toggleClass 'active'
     false
+
+  dispose: ->
+    return if @disposed
+    @message.dispose!
+    delete @message
+    super!

@@ -25,6 +25,6 @@ module.exports = class FormView extends View
     @dispose!
 
   submit: ~>
-    console.log 'mdr'
+    # XXX rely on html5 ? might as well o/
     @save! if it.current-target.check-validity!
     false
