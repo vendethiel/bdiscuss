@@ -21,7 +21,8 @@ exports.config =
         before: assets.javascripts
 
     templates:
-      joinTo: 'js/app.js'
+      joinTo:
+        'js/templates.js': 'js/dontUseMe'
 
     stylesheets:
       joinTo:
