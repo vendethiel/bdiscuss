@@ -10,9 +10,9 @@ module.exports = class ForumController extends Controller
   title: 'Forums'
 
   index: !->
-    @collection = new Collection url: 'topics' model: Forum 
+    @collection = new Collection [] url: 'forums' model: Forum 
     @view = new ForumIndexView {@collection}
-    @collection.fetch!
+    @collection.fetch!then @view~render
 
   show: !({id}) ->
     @model = new Forum {id}

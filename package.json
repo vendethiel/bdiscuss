@@ -11,7 +11,6 @@
 
     "jade-brunch": "1.5.1",
     "static-jade-brunch": "1.4.11",
-    "jade-angularjs-brunch2": "1.6.1",
 
     "uglify-js-brunch": "1.7.0",
     "clean-css-brunch": "1.6.0",

@@ -9,3 +9,4 @@ module.exports = class ForumIndexView extends CollectionView
   container: 'content'
   list-selector: '.forum-list'
   region: 'content'
+  auto-render: false

@@ -22,7 +22,7 @@ exports.config =
 
     templates:
       joinTo:
-        'js/templates.js': 'js/dontUseMe'
+        'js/app.js': /^app/
 
     stylesheets:
       joinTo:
