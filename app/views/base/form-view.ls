@@ -26,5 +26,6 @@ module.exports = class FormView extends View
 
   submit: ~>
     # XXX rely on html5 ? might as well o/
+    alert 'mdr'
     @save! if it.current-target.check-validity!
     false

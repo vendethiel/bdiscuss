@@ -8,6 +8,8 @@ module.exports = class TopicFormNewView extends FormView
   save-event: 'topic:new'
 
   events:
+    # events are not inherited currently because
+    # chaplin searches for coffee's __super__ whereas coco/ls uses superclass
     'click .new-topic': 'toggleFields'
     'click legend': 'toggleFields'
 
