@@ -26,3 +26,4 @@ tmp/
 _public
 
 node_modules
+bower_components

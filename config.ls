@@ -1,13 +1,3 @@
-assets =
-  javascripts:
-    'vendor/jquery/jquery.js'
-    'vendor/lodash/dist/lodash.js'
-    'vendor/backbone/backbone.js'
-    'vendor/chaplin/brunch/chaplin.js'
-    'vendor/backbone.stickit/backbone.stickit.js'
-  stylesheets:
-    ...
-
 exports.config =
   paths:
     public: '_public'
@@ -16,19 +6,14 @@ exports.config =
     javascripts:
       joinTo:
         'js/app.js': /^app/
-        'js/vendor.js': /^(vendor|node_modules)/
-      order:
-        before: assets.javascripts
+        'js/vendor.js': /^(bower_components|vendor)/
 
     templates:
       joinTo:
         'js/app.js': /^app/
 
     stylesheets:
-      joinTo:
-        'css/app.css': /^(app|vendor)/
-      order:
-        before: assets.stylesheets
+      joinTo: 'css/app.css'
 
   server:
     path: 'server.ls'
@@ -38,5 +23,3 @@ exports.config =
     jade: {+pretty}
     static_jade:
       extension:  '.static.jade'
-    javascripts: assets.javascripts
-    stylesheets: assets.stylesheets

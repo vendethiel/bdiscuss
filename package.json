@@ -3,10 +3,10 @@
   "github": "Nami-Doc/bdiscuss",
   "dependencies": {
     "auto-reload-brunch": "1.6.3",
-    "some-javascript-brunch": "1.6.1",
+    "javascript-brunch": "1.6.0",
     "LiveScript-brunch": "1.6.0",
 
-    "some-stylesheet-brunch": "1.6.1",
+    "css-brunch": "1.6.0",
     "stylus-brunch": "1.6.1",
 
     "jade-brunch": "1.5.1",
