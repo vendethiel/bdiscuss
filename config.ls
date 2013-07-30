@@ -9,8 +9,7 @@ exports.config =
         'js/vendor.js': /^(bower_components|vendor)/
 
     templates:
-      joinTo:
-        'js/app.js': /^app/
+      joinTo: 'js/app.js'
 
     stylesheets:
       joinTo: 'css/app.css'
