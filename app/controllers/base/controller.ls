@@ -1,4 +1,3 @@
-Chaplin = require 'chaplin'
 SiteView = require 'views/shared/site-view'
 HeaderView = require 'views/shared/header-view'
 UserNavView = require 'views/shared/user-nav-view'

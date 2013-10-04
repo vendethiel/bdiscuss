@@ -1,4 +1,3 @@
-Chaplin = require 'chaplin'
 utils = require 'lib/utils'
 
 module.exports = class View extends Chaplin.View

@@ -10,8 +10,8 @@ module.exports = class ForumShowView extends PageView
   template: template
 
   regions:
-    '.new-topic-container': 'new-topic'
-    '.topic-list': 'topic-list'
+    'new-topic': '.new-topic-container'
+    'topic-list': '.topic-list'
 
   bindings:
     '#name':

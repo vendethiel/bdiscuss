@@ -7,7 +7,7 @@ module.exports = class HeaderView extends view
   tag-name: 'header'
 
   regions:
-    '#user-nav': 'user-nav'
+    'user-nav': '#user-nav'
 
   #@subview 'user-nav' new userNavView do
   #container: @$ '#user-nav-container'

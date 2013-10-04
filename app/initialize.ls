@@ -1,14 +1,9 @@
-Application = require 'application'
-#routes = require 'routes'
+require! <[application routes]>
 
 # Initialize the application on DOM ready event.
 <-! $
-app = new Application
-app.initialize!
-/*
-new Application {
-title: 'Bdiscuss'
-controller-suffix: '-controller'
-routes
+new application {
+	title: 'Bdiscuss'
+	controller-suffix: '-controller'
+	routes
 }
-*/

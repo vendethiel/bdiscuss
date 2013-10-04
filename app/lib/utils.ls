@@ -1,11 +1,9 @@
-Chaplin = require 'chaplin'
-mediator = require 'mediator'
-
 # Delegate to Chaplin’s utils module
-{utils, helpers} = Chaplin
+{mediator, utils, {reverse}: helpers} = Chaplin
 utils .= beget utils
 
 _ utils .extend do
+  # lcfirst: (f, ...r) -> f.toUpperCase! + r * ''
   titleize: ->
     return "" unless it
     it = it.0.to-upper-case! + it.slice 1
@@ -18,7 +16,6 @@ _ utils .extend do
   is-admin: ->
     mediator.user?get 'admin'
 
-  url: /*(route, ...params)*/ ->
-    helpers.reverse ...
+  url: reverse
 
 module.exports = utils

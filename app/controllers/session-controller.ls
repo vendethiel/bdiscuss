@@ -1,8 +1,6 @@
-mediator = require 'mediator'
 Controller = require './base/controller'
 User = require 'models/user'
-#LoginView = require 'views/shared/login-view'
-#provider = require 'provider'
+{mediator} = Chaplin
 
 module.exports = class SessionController extends Controller
   initialize: ->

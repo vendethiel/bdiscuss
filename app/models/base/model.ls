@@ -1,5 +1,3 @@
-Chaplin = require 'chaplin'
-
 module.exports = class Model extends Chaplin.Model
   force-ext: true
   api-root: "/api/"
