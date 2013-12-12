@@ -5,24 +5,18 @@
     "auto-reload-brunch": "1.6.3",
     "javascript-brunch": "1.6.0",
     "LiveScript-brunch": "1.6.0",
-
     "css-brunch": "1.6.0",
     "stylus-brunch": "1.6.1",
-
     "jade-brunch": "1.5.1",
     "static-jade-brunch": "1.4.11",
-
     "uglify-js-brunch": "1.7.0",
     "clean-css-brunch": "1.6.0",
-
-
     "mysql": "2.0.0-alpha8",
     "orm": "2.0.12",
-
     "express": "3.2.4",
     "express-resource": "1.0.0",
-
     "express-orm-handler": "0.0.2",
-    "express-orm-api-session": "0.0.1"
+    "express-orm-api-session": "0.0.1",
+    "express-crud": "0.0.0"
   }
 }
