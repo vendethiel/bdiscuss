@@ -1,22 +1,23 @@
 {
   "name": "bdiscuss",
   "github": "Nami-Doc/bdiscuss",
+  "disabled deps": {    "auto-reload-brunch": "1.7.3" },
   "dependencies": {
-    "auto-reload-brunch": "1.6.3",
-    "javascript-brunch": "1.6.0",
+    "javascript-brunch": "1.7.1",
     "LiveScript-brunch": "1.6.0",
-    "css-brunch": "1.6.0",
-    "stylus-brunch": "1.6.1",
-    "jade-brunch": "1.5.1",
+    "css-brunch": "1.7.0",
+    "stylus-brunch": "1.8.0",
+    "jade-brunch": "1.8.1",
     "static-jade-brunch": "1.4.11",
-    "uglify-js-brunch": "1.7.0",
-    "clean-css-brunch": "1.6.0",
-    "mysql": "2.0.0-alpha8",
-    "orm": "2.0.12",
-    "express": "3.2.4",
+    "uglify-js-brunch": "1.7.7",
+    "clean-css-brunch": "1.7.1",
+
+    "mysql": "2.1.0",
+    "orm": "2.1.3",
+    "express": "3.5.0",
     "express-resource": "1.0.0",
     "express-orm-handler": "0.0.2",
     "express-orm-api-session": "0.0.1",
-    "express-crud": "0.0.0"
+    "express-crud-api": "0.0.1"
   }
 }
