@@ -4,9 +4,9 @@ UserNavView = require 'views/shared/user-nav-view'
 
 module.exports = class Controller extends Chaplin.Controller
   before-action: (params, route) ->
-    @compose 'site' SiteView
-    @compose 'header' HeaderView
-    @compose 'user-nav' UserNavView
-    @compose 'auth' !->
+    @reuse 'site' SiteView
+    @reuse 'header' HeaderView
+    @reuse 'user-nav' UserNavView
+    @reuse 'auth' !->
       SessionController = require 'controllers/session-controller'
       @controller = new SessionController

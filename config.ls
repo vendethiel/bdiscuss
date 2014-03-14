@@ -12,13 +12,14 @@ exports.config =
       joinTo: 'js/app.js'
 
     stylesheets:
-      joinTo: 'css/app.css'
+      joinTo:
+        'css/app.css': /^app/
+        'css/vendor.css': /^(bower_components|vendor)/
 
   server:
     path: 'server.ls'
     db: "mysql://root@localhost/bdiscuss?debug=true"
 
   plugins:
-    jade: {+pretty}
-    static_jade:
-      extension:  '.static.jade'
+    jaded:
+      static-patterns: //^app/index.jade$//

@@ -1,5 +1,5 @@
 # Delegate to Chaplin’s utils module
-{mediator, utils, {reverse}: helpers} = Chaplin
+{mediator, utils} = Chaplin
 utils .= beget utils
 
 _ utils .extend do
@@ -16,6 +16,6 @@ _ utils .extend do
   is-admin: ->
     mediator.user?get 'admin'
 
-  url: reverse
+  url: utils.reverse
 
 module.exports = utils
