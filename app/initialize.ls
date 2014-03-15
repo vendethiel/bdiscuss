@@ -5,5 +5,6 @@ require! <[application routes]>
 new application {
 	title: 'Bdiscuss'
 	controller-suffix: '-controller'
+	+push-state
 	routes
 }

@@ -14,3 +14,10 @@ module.exports = class Application extends Chaplin.Application
       user: get: -> u[it]
 
     super!
+
+  /*
+  start: !->
+    mediator.user.fetch!then do
+      -> super!
+      -> mediator.removeUser!; super! # logout if there is no info
+  */
