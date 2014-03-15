@@ -8,24 +8,24 @@ module.exports = class FormView extends View
   
   save: !~>
     @model.save!
-      .done !~>
+      .success !~>
         @publish-save it
         @dismiss!
-      #.always !~> remove loader etc
+      .always !~> console.log 'you fooged'
 
   publish-save: !->
-    if @save-event
-      @publish-event that, it
-    else
+    unless @save-event
       throw new Error "FormView must have a save event"
 
+    @publish-event @save-event, it
+
   dismiss: !~>
-    it.preventDefault!
+    it?preventDefault!
     @trigger 'dispose'
     @dispose!
 
   submit: ~>
     # XXX rely on html5 ? might as well o/
-    alert 'mdr'
     @save! if it.current-target.check-validity!
+    it?preventDefault!
     false

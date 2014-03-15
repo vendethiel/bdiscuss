@@ -31,6 +31,8 @@ module.exports = class Model extends Chaplin.Model
     payload = ["#k=#v" for v, k in params when v?] * '&'
 
     if @force-ext
+      if full[*-1] is '/'
+        full.=substr 0, full.length-1
       full += ".json"
 
     if payload

@@ -1,3 +1,3 @@
-require! <[express-crud]>
+require! <[express-crud-api]>
 
-module.exports = express-crud 'forum'
+module.exports = express-crud-api 'forum'

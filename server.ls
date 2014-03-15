@@ -15,6 +15,7 @@ PUBLIC_PATH = config.paths?public ? 'public'
  */
 app.use orm.express config.server.db,
   define: !(db, models) ->
+    db.settings.set 'instance.cache' false
     require('./server/models') db, models
 
 /**

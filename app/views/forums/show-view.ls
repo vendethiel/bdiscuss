@@ -24,5 +24,5 @@ module.exports = class ForumShowView extends PageView
 
   create-topic-form: !->
     @topic?dispose!
-    @topic = new Topic forum: @models
+    @topic = new Topic forum: @model
     @topicView = new TopicFormNewView region: 'new-topic' model: @topic
