@@ -12,6 +12,7 @@ module.exports = !(db, models) ->
 		locked: Boolean
 
 	models.message = db.define 'messages',
+		content: String
 		created_at: Date
 		updated_at: Date
 

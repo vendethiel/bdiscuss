@@ -1,5 +1,6 @@
+require! <[mediator]>
 # Delegate to Chaplin’s utils module
-{mediator, utils} = Chaplin
+{utils} = Chaplin
 utils .= beget utils
 
 _ utils .extend do
