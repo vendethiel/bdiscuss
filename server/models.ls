@@ -4,21 +4,19 @@ module.exports = !(db, models) ->
 		password: String
 		admin: Boolean
 
-
 	models.forum = db.define 'forums',
 		name: String
-
 
 	models.topic = db.define 'topics',
 		title: String
 		locked: Boolean
 
-	models.topic.hasOne 'forum', models.forum, {reverse: 'topics', +required, +autoFetch}
-
-
 	models.message = db.define 'messages',
-		title: String
 		created_at: Date
 		updated_at: Date
 
+
+	# :forum has_many :topics
+	models.topic.hasOne 'forum', models.forum, {reverse: 'topics', +required, +autoFetch}
+	# :topic has_many :messages
 	models.message.hasOne 'topic', models.topic, {reverse: 'messages', +required, +autoFetch}

@@ -6,12 +6,12 @@ module.exports = class FormView extends View
     'click .cancel-form': 'dismiss'
     'submit': 'submit'
   
-  save: !~>
+  save: !->
     @model.save!
       .success !~>
         @publish-save it
         @dismiss!
-      .always !~> console.log 'you fooged'
+      .fail !~> console.log 'you fooged'
 
   publish-save: !->
     unless @save-event
@@ -19,12 +19,12 @@ module.exports = class FormView extends View
 
     @publish-event @save-event, it
 
-  dismiss: !~>
+  dismiss: !->
     it?preventDefault!
     @trigger 'dispose'
     @dispose!
 
-  submit: ~>
+  submit: ->
     # XXX rely on html5 ? might as well o/
     @save! if it.current-target.check-validity!
     it?preventDefault!

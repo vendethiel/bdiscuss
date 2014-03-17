@@ -18,6 +18,7 @@ module.exports = class TopicFormNewView extends FormView
 
   initialize: ->
     super ...
+    # message model + bindings
     @message = new Message topic: @model
     @stickit @message, @message-bindings
 
@@ -29,6 +30,12 @@ module.exports = class TopicFormNewView extends FormView
   dismiss: !->
     @$.remove!
     @dispose!
+
+  save: !->
+    topic <~ @model.save!then
+    <~ @message.save!then
+    @publish-save topic
+    @dismiss!
 
   dispose: ->
     return if @disposed

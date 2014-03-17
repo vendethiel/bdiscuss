@@ -31,3 +31,4 @@ app.use '/session' require 'express-orm-api-session'
  */
 app.resource 'forums' require './api/forums'
 app.resource 'topics' require './api/topics'
+app.resource 'messages' require './api/messages'
