@@ -17,6 +17,8 @@ module.exports = !(db, models) ->
 
 
 	# :forum has_many :topics
-	models.topic.hasOne 'forum', models.forum, {reverse: 'topics', +required, +autoFetch}
+	models.topic.has-one 'forum', models.forum, {reverse: 'topics', +required, +auto-fetch}
 	# :topic has_many :messages
-	models.message.hasOne 'topic', models.topic, {reverse: 'messages', +required, +autoFetch}
+	models.message.has-one 'topic', models.topic, {reverse: 'messages', +required, +auto-fetch}
+	# :user has_many :messages
+	models.message.has-one 'user', models.user, {reverse: 'messages', +required, +auto-fetch}

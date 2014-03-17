@@ -1,5 +1,4 @@
-require! <[views/shared/layout routes]>
-{mediator} = Chaplin
+require! <[views/shared/layout mediator routes]>
 
 module.exports = class Application extends Chaplin.Application
   title: 'Brunch:discuss'
@@ -8,16 +7,15 @@ module.exports = class Application extends Chaplin.Application
     @layout = new layout it
 
   init-mediator: !->
-    u = username: 'hey' admin: 1
+    u = id: 1
 
-    Chaplin.mediator <<<
-      user: get: -> u[it]
+    mediator.create-user!
 
     super!
 
-  /*
   start: !->
     mediator.user.fetch!then do
-      -> super!
-      -> mediator.removeUser!; super! # logout if there is no info
-  */
+      !-> super!
+      !->
+        mediator.removeUser!
+        super! # logout if there is no info
