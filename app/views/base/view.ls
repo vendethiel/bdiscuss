@@ -10,7 +10,6 @@ module.exports = class View extends Chaplin.View
   getTemplateData: ->
     utils.beget(utils) <<<< super!
 
-
   render: ->
     super ...
     @stickit! if @model

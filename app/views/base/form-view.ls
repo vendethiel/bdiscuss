@@ -5,7 +5,7 @@ module.exports = class FormView extends View
   events:
     'click .cancel-form': 'dismiss'
     'submit': 'submit'
-  
+
   save: !->
     @model.save!
       .success !~>

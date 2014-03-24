@@ -16,10 +16,13 @@ module.exports = class TopicFormNewView extends FormView
   message-bindings:
     '.content': 'content'
 
-  initialize: ->
+  initialize: !->
     super ...
     # message model + bindings
-    @message = new Message topic: @model
+    @message = new Message content: '' topic: @model
+
+  render: !->
+    super ...
     @stickit @message, @message-bindings
 
   toggleFields: ~>
