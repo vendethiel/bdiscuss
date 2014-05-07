@@ -1,4 +1,8 @@
-module.exports = !(db, models) ->
+module.exports = (db, models) !->
+	# settings
+	db.settings.set 'instance.autoFetchLimit' 3
+
+	# models
 	models.user = db.define 'users',
 		username: String
 		password: String

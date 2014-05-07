@@ -2,9 +2,7 @@ require! <[express-crud-api]>
 
 module.exports = express-crud-api 'message',
 	filter-fields: (req, res) ->
-		unless user = req.session.user-id
-			res.send 'null'
-			return
+		return res.send 'null' unless user = req.session.user-id
 
 		req.body{content} <<< do
 			topic_id: req.body.topic.id
