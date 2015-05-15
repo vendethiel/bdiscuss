@@ -1,18 +1,18 @@
 {
   "name": "bdiscuss",
-  "github": "Nami-Doc/bdiscuss",
-  "disabled deps": { "auto-reload-brunch": "1.7.3" },
+  "github": "vendethiel/bdiscuss",
+  "disabled deps": { "auto-reload-brunch": "1.7.8" },
   "dependencies": {
     "javascript-brunch": "1.7.1",
-    "LiveScript-brunch": "1.6.0",
+    "livescript-brunch": "1.6.0",
 
     "css-brunch": "1.7.0",
-    "stylus-brunch": "1.8.0",
+    "stylus-brunch": "1.8.1",
 
     "jaded-brunch": "1.7.8-hotfix",
 
     "uglify-js-brunch": "1.7.7",
-    "clean-css-brunch": "1.7.1",
+    "clean-css-brunch": "1.7.2",
 
 
 
