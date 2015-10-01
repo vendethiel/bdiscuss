@@ -1,6 +1,6 @@
 {
   "name": "bdiscuss",
-  "repo": "Nami-Doc/bdiscuss",
+  "repo": "vendethiel/bdiscuss",
   "dependencies": {
     "jquery": "2.1.4",
     "lodash": "3.8.0",

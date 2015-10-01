@@ -3,7 +3,9 @@ if currentUser()
     if isAdmin()
       span You're an admin.
 else
+  .login-form-container
+
   p You're logged off. 
-    a(href="/login") Login in 
+    a.login-button(href="/login") Login in 
     | or 
     a(href="/register") Register.

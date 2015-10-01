@@ -14,8 +14,7 @@ module.exports = class TopicShowView extends PageView
   render: !->
     super ...
 
-    @messages = @model.get 'messages'
-    if @messages
+    if @messages = @model.get 'messages'
       @subview 'messages' new MessageListView do
         collection: @messages
         container: @$ '#messages'

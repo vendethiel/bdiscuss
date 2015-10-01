@@ -23,7 +23,8 @@ module.exports = class TopicItemView extends View
   toggle-edit-title: ->
     @saved-title = if (toggler = @$ '.toggle-edit-title')is ':visible'
       @model.get 'title' 
-    else void #reset it
+    else
+      void #reset it
 
     toggler.toggle!
     @$ 'a.title' .toggle!

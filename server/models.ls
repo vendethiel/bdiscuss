@@ -1,6 +1,6 @@
 module.exports = (db, models) !->
 	# settings
-	db.settings.set 'instance.autoFetchLimit' 3
+	#db.settings.set 'instance.autoFetchLimit' #this shit loads too much...
 	db.settings.set 'instance.cache' false
 
 	# models
