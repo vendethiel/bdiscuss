@@ -7,7 +7,7 @@
   "dependencies": {
     "javascript-brunch": "1.8.0",
     "LiveScript-brunch": "1.6.0",
-    "css-brunch": "1.7.0",
+    "css-brunch": "2.6.0",
     "stylus-brunch": "1.8.1",
     "jaded-brunch": "2.2.4",
     "uglify-js-brunch": "1.7.7",
