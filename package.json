@@ -14,7 +14,7 @@
     "clean-css-brunch": "1.8.0",
     "mysql": "2.10.2",
     "orm": "2.1.30",
-    "express": "3.5.0",
+    "express": "4.14.0",
     "express-resource": "1.0.0",
     "express-orm-handler": "0.0.2",
     "express-orm-api-session": "0.0.1",
